@@ -1,0 +1,23 @@
+/* estilos propios */
+h1{ 
+    padding: 10px 5px;
+    text-align: center;
+}
+
+li{
+    border-bottom: 1px solid rgb(7, 7, 7);
+    margin-bottom: 0.3rem;
+    padding: 5px;
+}
+
+main.container{
+    max-width: 1024px;
+    margin: auto;;
+    background-color: teal;
+    font-weight: bold;
+}
+
+.container-filter{
+    padding: 0.5rem;
+    border: 1px solid #DDD;
+}
