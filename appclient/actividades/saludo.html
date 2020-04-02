@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saludo</title>
+</head>
+
+<body>
+
+    <input type="text" id="texto" placeholder="Escriba su nombre">
+    <button onclick="saludar()">Saludar</button>
+    <p id="saludo"></p>
+
+    <script>
+
+        function saludar(){
+
+            let elTexto = document.getElementById('texto');
+            let elSaludo = document.getElementById('saludo');
+            let dev = elTexto.value;
+
+            if (dev.length <= 0){
+                alert('Debe escribir un nombre');
+            }else{
+                elSaludo.innerHTML = ('Saludos ' + dev);
+            }
+
+        }       
+
+    </script>
+
+</body>
+</html>
