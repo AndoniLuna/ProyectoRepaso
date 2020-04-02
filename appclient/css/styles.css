@@ -12,7 +12,7 @@ li{
 
 main.container{
     max-width: 1024px;
-    margin: auto;;
+    margin: auto;
     background-color: teal;
     font-weight: bold;
 }

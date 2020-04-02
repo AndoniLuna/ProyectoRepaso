@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saludo</title>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Listado Peliculas</h1>
+
+        <div class="container-filter">
+            <ul id="peliculas">
+                <li>
+                    <p id="idPelicula1"></p>
+                    <p id="nombrePelicula1"></p>
+                    <p id="directorPelicula1"></p>
+                    <p id="clasificacionPelicula1"></p>
+                </li>
+                <li>
+                    <p id="idPelicula2"></p>
+                    <p id="nombrePelicula2"></p>
+                    <p id="directorPelicula2"></p>
+                    <p id="clasificacionPelicula2"></p>
+                </li>
+                <li>
+                    <p id="idPelicula3"></p>
+                    <p id="nombrePelicula3"></p>
+                    <p id="directorPelicula3"></p>
+                    <p id="clasificacionPelicula3"></p>
+                </li>
+            </ul>
+        </div>
+
+    </main>
+
+    <script>
+
+        let pelicula1 = {
+                        "id": 1,
+                        "nombre": "El sexto sentido",
+                        "director": "M. Night Shyamalan",
+                        "clasificacion": "Drama"
+                      };
+        let pelicula2 = {
+                        "id": 2,
+                        "nombre": "Pulp Fiction",
+                        "director": "Tarantino",
+                        "clasificacion": "Acción"
+                      };
+        let pelicula3 = {
+                        "id": 3,
+                        "nombre": "Todo sobre mi madre",
+                        "director": "Almodobar",
+                        "clasificacion": "Drama"
+                      };
+
+        let ElId1 = document.getElementById('idPelicula1').textContent = 'Id: ' + pelicula1.id;
+        let Elnombre1 = document.getElementById('nombrePelicula1').textContent = 'Nombre: ' + pelicula1.nombre;
+        let ElDirector1 = document.getElementById('directorPelicula1').textContent = 'Director: ' + pelicula1.director;
+        let LaClasificacion1 = document.getElementById('clasificacionPelicula1').textContent = 'Clasificacion: ' + pelicula1.clasificacion;
+        
+        let ElId2 = document.getElementById('idPelicula2').textContent = 'Id: ' + pelicula2.id;
+        let Elnombre2 = document.getElementById('nombrePelicula2').textContent = 'Nombre: ' + pelicula2.nombre;
+        let ElDirector2 = document.getElementById('directorPelicula2').textContent = 'Director: ' + pelicula2.director;
+        let LaClasificacion2 = document.getElementById('clasificacionPelicula2').textContent = 'Clasificacion: ' + pelicula2.clasificacion;
+        
+        let ElId3 = document.getElementById('idPelicula3').textContent = 'Id: ' + pelicula3.id;
+        let Elnombre3 = document.getElementById('nombrePelicula3').textContent = 'Nombre: ' + pelicula3.nombre;
+        let ElDirector3 = document.getElementById('directorPelicula3').textContent = 'Director: ' + pelicula3.director;
+        let LaClasificacion3 = document.getElementById('clasificacionPelicula3').textContent = 'Clasificacion: ' + pelicula3.clasificacion;
+
+    </script>
+</body>
+</html>
