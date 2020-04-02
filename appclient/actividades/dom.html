@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+
+</head>
+
+<body>
+
+    <style>
+        .subrayado{
+            color: teal;
+            text-decoration: underline;
+        }
+
+    </style>
+
+    <h1 id="titulo1">JavaScript Basico 1</h1>
+    <h2 id="titulo2">Manipulacion del DOM y Selectores</h2>
+
+    <p>DOM Document Object Model <a href="https://es.wikipedia.org/wiki/Document_Object_Model">Wikipedia</a></p>
+
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo delectus, et ea qui inventore quia laboriosam hic consectetur nesciunt aspernatur quasi nemo perspiciatis distinctio alias. Velit non est reprehenderit unde.</p>
+    <p>Voluptatem quae doloribus a excepturi repellat! Reprehenderit, aliquam! Sint iure accusamus inventore odit labore dolorem nulla error fugiat impedit harum placeat eius, explicabo temporibus at pariatur. Voluptate ex architecto ratione?</p>
+    <p>Maiores ratione magnam nihil laudantium quos omnis possimus ipsum aspernatur repellendus exercitationem esse aut delectus, nemo atque ullam culpa debitis mollitia saepe consequuntur dolor facilis autem molestias, velit tempora. Rem!</p>
+
+    <ul id="lista">
+        <!-- innerHTML -->
+        <li>Cargando....</li>
+    </ul>
+
+
+    <script>
+        console.info('Esta funcionando');
+
+        var persona = 'andoni';
+
+        //if ( persona == undefined ){
+        if ( !persona ){
+            alert('Persona no valor es UNDEFINED');
+        }else{
+            console.debug(persona);
+        }
+
+        // comprar javaScript tiene dos comparadores
+        // ==  compador simple
+        // === compador estricto
+
+        if ( 2 == "2" ){
+            console.debug(' 2 == "2"  es true');
+        }
+
+
+        if ( 2 === "2" ){
+            console.debug(' 2 === "2"  es true');
+        }else{
+            console.debug(' 2 === "2"  es false');
+        }
+        
+
+        const PI = 3.14;
+        console.debug('PI = ' + PI);
+
+        //seleccionamos un elemento por su id
+        let elH1 = document.getElementById('titulo1');
+        let elH2 = document.getElementById('titulo2');
+
+        //cambiar el color a rojo
+        elH1.style.color = 'red';
+
+        // añadimos una clase a traves clasList API            
+        elH2.classList.add('subrayado');
+
+        //podemos manipular tambien el texto
+        elH1.textContent = 'Cambiado mediante JS';
+
+        //cargar dinamicamente la lista
+        let lista = document.getElementById('lista');
+        //limpiar el contenido
+        lista.innerHTML = '';
+        //cargar datos
+        for(let i=0; i < 4; i++){
+            lista.innerHTML += `<li>Elemento ${i}</li>`;
+        }
+
+    </script>
+
+</body>
+</html>

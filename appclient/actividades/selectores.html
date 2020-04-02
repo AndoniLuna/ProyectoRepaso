@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selectores</title>
+
+</head>
+
+<body>
+    <h1>Selectores</h1>
+
+    <div id="box">
+        <a href="#top1">Enlace2</a>   
+    </div>
+
+    
+    <a href="#top2">Enlace2</a>   
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam corporis voluptate hic, qui voluptas facilis architecto dolor? Atque fugiat similique vitae eum illo nobis mollitia, asperiores tenetur distinctio dolor aperiam.</p>
+    <p>Nesciunt et, repudiandae sapiente consequuntur dolorem eos distinctio natus doloribus eum sed? A consequuntur dolore blanditiis inventore possimus voluptas quibusdam quasi rerum quas reiciendis neque, eligendi rem exercitationem omnis. Harum.</p>
+    <p>Blanditiis, esse aspernatur voluptatem laboriosam suscipit fugiat eaque nulla molestiae quos quidem ipsum facilis dolorem dolores officia repellendus doloremque. Cumque, distinctio a quos obcaecati quasi molestias. Aut velit amet placeat!</p>
+
+    <script>
+
+        // Existen distintos selectores de JavaScript
+        let parrafos = document.getElementsByTagName('p');
+        console.debug( 'tenemos ' + parrafos.length + ' parrafos en el documento' );
+
+        for(let i=0; i < parrafos.length ; i++ ){
+            let p = parrafos[i];
+            p.style.color = 'red';
+            p.innerHTML += 'leer mas...'; 
+        }
+
+        let anclaDentroDiv = document.querySelector('div#box a');
+        anclaDentroDiv.style.color = 'green';
+
+    </script>    
+
+</body>
+</html>
