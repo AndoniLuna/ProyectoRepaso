@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personas</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Ejercicio 5</h1>
+
+    <div class="container-fluid">
+        <h2 class="text-center">Listado Personas</h2>
+        <div class="row" id="listado">
+        </div>
+    </div>
+    
+
+    <script>
+        window.addEventListener('load', init() );
+
+        function init(){
+            console.debug('Document Load and Ready');
+
+            const url = 'https://randomuser.me/api/?results=5';
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    console.info('peticion GET ' + url);
+
+                    const jsonData = JSON.parse(this.responseText);    
+                    console.debug( jsonData );
+
+                    const personas = jsonData.results;
+
+                    let lista = document.getElementById('listado');
+                    lista.innerHTML = '';
+
+                    for(let i=0; i < personas.length; i++ ){
+                        const persona = personas[i];
+                        console.debug( persona.name.first );
+                        
+                        lista.innerHTML += `<span class="border border-dark text-center pr-1 pl-1">
+                                                <img src="${persona.picture.thumbnail}" alt="avatar" class="mt-1 img-fluid">
+                                                <p>Nombre: ${persona.name.first} ${persona.name.last}</p>
+                                                <p>Sexo: ${persona.gender}</p>
+                                                <p>NºTeléfono: ${persona.phone}</p>
+                                                <p>Email: ${persona.email}</p>
+                                                <p>Edad: ${persona.dob.age}</p>
+                                            </span>`;
+
+                    }
+
+                }
+
+            };
+
+            xhttp.open("GET", url , true);
+            xhttp.send();
+
+        }        
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
