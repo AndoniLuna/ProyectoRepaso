@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemons</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <h1 class="text-center">Ejercicio 6</h1>
+    <h2 class="text-center">Listado Pokemon</h2>
+    <div class="row">
+        <div class="container">
+
+            <div class="float-left">
+                <ul id="listado"></ul>
+            </div>
+
+
+            <div class="float-right" id="detalle"></div>  
+
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', init() );
+
+        function init(){
+            console.debug('Document Load and Ready');
+
+            const url = 'https://pokeapi.co/api/v2/pokemon/';
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    console.info('peticion GET ' + url);
+
+                    const jsonData = JSON.parse(this.responseText);    
+                    console.debug( jsonData );
+
+                    const pokemons = jsonData.results;
+
+                    let lista = document.getElementById('listado');
+                    lista.innerHTML = '';
+
+                    for(let i=0; i < pokemons.length; i++ ){
+                        const pokemon = pokemons[i];
+                        lista.innerHTML += `<li onclick="mostrarDetalle('${pokemon.url}')">${pokemon.name}</li>`;
+                    }
+
+                }
+
+            };
+
+            xhttp.open("GET", url , true);
+            xhttp.send();
+
+        }        
+    </script>
+
+    <script>
+        
+        function mostrarDetalle(urlDetalle){
+
+            console.debug('Mostrando detalle del pokemon');
+
+            const url = urlDetalle;
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    console.info('peticion GET ' + url);
+
+                    const jsonData = JSON.parse(this.responseText);    
+                    console.debug( jsonData );
+
+                    const pokemon = jsonData;
+
+                    let fdetalle = document.getElementById('detalle');
+                    
+                    fdetalle.innerHTML = '';
+                        
+                    fdetalle.innerHTML += `<img src="${pokemon.sprites.front_default}" alt="pokemon">
+                                        <span>Nombre: ${pokemon.name}</span>
+                                        <span>Altura: ${pokemon.height}</span>
+                                        <span>Peso: ${pokemon.weight}</span>`;
+
+                }
+            };
+
+            xhttp.open("GET", url , true);
+            xhttp.send();
+
+        }
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
