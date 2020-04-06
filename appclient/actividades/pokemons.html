@@ -5,23 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokemons</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
 </head>
 <body>
     <h1 class="text-center">Ejercicio 6</h1>
-    <h2 class="text-center">Listado Pokemon</h2>
-    <div class="row">
-        <div class="container">
+    <main class="container">
 
-            <div class="float-left">
-                <ul id="listado"></ul>
+        <h2 class="text-center">Listado Pokemon</h2>
+
+        <div class="row">
+            <div class="col">
+                <ul id="listado" class="list-group">
+                    <li class="list-group-item">Cargando...</li>
+                </ul>
             </div>
-
-
-            <div class="float-right" id="detalle"></div>  
-
+    
+    
+            <div class="col" id="detalle">
+                <div class="card" style="width: 18rem;"></div>
+            </div>  
+            
         </div>
-    </div>
+    </main>
 
     <script>
         window.addEventListener('load', init() );
@@ -47,7 +52,7 @@
 
                     for(let i=0; i < pokemons.length; i++ ){
                         const pokemon = pokemons[i];
-                        lista.innerHTML += `<li onclick="mostrarDetalle('${pokemon.url}')">${pokemon.name}</li>`;
+                        lista.innerHTML += `<li onclick="mostrarDetalle('${pokemon.url}')" class="list-group-item">${pokemon.name}</li>`;
                     }
 
                 }
@@ -83,10 +88,12 @@
                     
                     fdetalle.innerHTML = '';
                         
-                    fdetalle.innerHTML += `<img src="${pokemon.sprites.front_default}" alt="pokemon">
-                                        <span>Nombre: ${pokemon.name}</span>
-                                        <span>Altura: ${pokemon.height}</span>
-                                        <span>Peso: ${pokemon.weight}</span>`;
+                    fdetalle.innerHTML += `<img src="${pokemon.sprites.front_default}" src="https://picsum.photos/100/100" class="card-img-top" alt="pokemon">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${pokemon.name}</h5>
+                                            <p class="card-text">Altura: ${pokemon.height}</p>
+                                            <p class="card-text">Peso: ${pokemon.weight}</p>
+                                        </div>`;
 
                 }
             };
