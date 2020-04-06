@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad6</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+</head>
+<body>
+
+    <h1>Actividad 6</h1>
+    <h2>Inspeccione con el navegador para ver los resultados</h2>
+
+    <script>
+        const alumnos = [
+ 
+            {
+
+                'nombre':'Andoni',
+
+                'edad':27
+
+            },
+
+            {
+
+                'nombre':'Alain',
+
+                'edad':34
+
+            },
+
+            {
+
+                'nombre':'Koldo',
+
+                'edad':24
+
+            },
+
+            {
+
+                'nombre':'Ivan',
+
+                'edad':34
+            }
+
+        ];
+
+        // Mapeo de los nombres de los alumnos
+        const alumnos_nombres = alumnos.map(function (alumno) {
+            return alumno.nombre; 
+        });
+
+        console.info(alumnos_nombres);
+
+        // Mapeo de los nombres de los alumnos usando arrow (Solo se puede usar cuando el código es de una sola línea)
+        const alumnos_nombres2 = alumnos.map((alumno) => alumno.nombre );
+        console.info(alumnos_nombres2);
+
+        //Mapeo de los nombres de los alumnos sin return, el cual llenara el array de undefined
+        const alumnos_nombres3 = alumnos.map(function (alumno) {});
+        console.info(alumnos_nombres3);
+        
+        //Mapeo de un array de forma implementada
+        var map = function (array, retorno) {
+ 
+            var dev = [];
+
+            array.forEach(function (elemento, index, array) {
+                dev.push(retorno(elemento)); 
+            });
+
+            return dev;
+
+        };
+
+        var alumnos_nombres4 = map(alumnos, function (alumno) {
+
+            return alumno.nombre;
+
+        });
+        console.info(alumnos_nombres4);
+
+        //Filtro para obtener a los alumnos menores de 30 años
+        const alumnos_jovenes = alumnos.filter(function (alumno) {
+            return alumno.edad < 30;
+        });
+ 
+        //Filtro con arrow
+        const alumnos_jovenes2 = alumnos.filter((alumno) => alumno.edad < 30 );
+
+        console.info(alumnos_jovenes);
+        console.info(alumnos_jovenes2);
+
+        //Al igual que Map, el filter debe tener retornar algo, de lo contrario el array resultante estara vacio
+        const alumnos_jovenes3 = alumnos.filter(function (alumno) {});
+        console.info(alumnos_jovenes3);
+
+        //filter de un array de forma implementada
+        var filter = function (array, retorno) {
+ 
+            var dev = [];
+
+            array.forEach(function (elemento, index, array) {
+                if (retorno(elemento, index, array)) {
+                    dev.push(elemento);    
+                }
+            });
+
+        return dev;
+
+        };
+
+        var alumnos_mayores = filter(alumnos, function (alumno) {
+
+            return alumno.edad > 30;
+
+        });
+        console.info(alumnos_mayores);
+
+        //Reduce para obtener la suma de un array de números 
+        var total = [1, 2, 3, 4, 5].reduce(function (previous, current) {
+            return previous + current;
+        }, 0);
+ 
+        console.log(total);
+
+        //Reduce con arrow
+        const total2 = [1, 2, 3, 4, 5].reduce((previo, actual) => previo + actual );
+        console.info(total2);
+        
+        //Si usamos reduce en un array de objetos sin mapearlo previamente, recibiremos un array de objetos undefined
+        const sum_edad = alumnos.reduce(function (previo, actual) {
+            return previo + actual;
+        }, 0);
+        console.info(sum_edad);
+
+        //Reduce de forma implementada
+        var reduceImplementado = function (array, callback, initial) {
+            var accumulator = initial || 0;
+     
+            array.forEach(function (element) {
+                accumulator = callback(accumulator, array[i]);
+            });
+     
+            return accumulator;
+        };
+        console.info(reduceImplementado);
+
+        //Map, filter y reduce de un array a la vez que devolvera
+        //la suma de edades de los alumnos menores de 20 años
+        var sumaAlumnosJovenes = alumnos.map((alumno) => alumno.edad)
+                  .filter((edad) => edad < 30)
+                  .reduce((accumulator, current) => [(+accumulator) + (+current)])
+        console.info(sumaAlumnosJovenes);
+
+    </script>
+
+</body>
+</html>

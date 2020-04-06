@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutas</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >
+</head>
+<body>
+
+    <h1>Frutas</h1>
+    <h2>Inspeccione con el navegador para ver los resultados</h2>
+
+    <script>
+
+        const frutas = [
+            {
+                "nombre": "fresa",
+                "precio": 4.56,
+                "oferta": true,
+                "descuento" : 50,
+                "colores" : [ "rojo" ]
+            },
+            {
+                "nombre": "manzana",
+                "precio": 1.99,
+                "oferta": false,
+                "descuento" : 50,
+                "colores" : [ "rojo","verde","amarillo" ]
+            },
+            {
+                "nombre": "kiwi",
+                "precio": 3.00,
+                "oferta": false,
+                "descuento" : 10,
+                "colores" : [ "verde","amarillo" ]
+            }
+            
+        ];
+
+        //Array con el nombre de frutas
+        const nombres_frutas = frutas.map((fruta) => fruta.nombre );
+        console.info(nombres_frutas);
+
+        //Array solo con nombres de frutas que están en oferta (map + filter)
+        const oferta_frutas = frutas.filter( fruta => fruta.oferta).map( fruta => fruta.nombre );
+        console.info(oferta_frutas);
+
+        //Precio TOTAL de todas las frutas ( map + reduce )
+        const valorInicial = 0;
+        const totalPrecio = frutas.map( fruta => fruta.precio ).reduce( (previous, current) => {
+
+            return previous + current;
+
+        }, valorInicial );
+        console.info('totalPrecio= ' + totalPrecio);
+
+        //Precio TOTAL de todas las frutas, pero aplicando el descuento si están en oferta ( map, filter, reduce )
+
+        const totalPrecioConDescuento = frutas.map(function (fruta) {
+            if (fruta.oferta){
+                return fruta.precio - (fruta.precio * fruta.descuento / 100);
+            }else {
+                return fruta.precio;
+            }
+            
+        }).reduce( (previous, current) => {
+
+            return previous + current;
+
+        }, 0 );
+        console.info('totalPrecioConDescuento= ' + totalPrecioConDescuento);
+
+        //Array solo con los colores de las frutas
+        const colores_frutas = frutas.map((fruta) => fruta.colores );
+        console.info(colores_frutas);
+
+        //Array solo con los colores de las frutas SIN REPETICIÓN
+
+    </script>
+
+</body>
+</html>
