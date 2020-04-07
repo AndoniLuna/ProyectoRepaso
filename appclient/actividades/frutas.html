@@ -77,6 +77,16 @@
         console.info(colores_frutas);
 
         //Array solo con los colores de las frutas SIN REPETICIÓN
+        console.info('Array solo con los colores de las frutas ');
+        console.info( [...new Set(
+                            frutas.map(el => el.colores )
+                                  .reduce( (p,c,i,a) => { 
+                                                        const resultado = p.concat(c);
+                                                        return resultado;
+                                                    } )
+            )]
+        );
+
 
     </script>
 
