@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indice</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -12,32 +13,42 @@
     <main class="container">
 
         <h1>Listado Alumnos</h1>
+
         <div class="container-filter">
             <p>Buscador</p>           
             <select id="selectorSexo">
+
                 <option value="t" selected>Todos</option>
                 <option value="h">Hombre</option>
                 <option value="m">Mujer</option>
+
             </select>
             <input type="search" id="inombre" placeholder="Escribe nombre">
         </div>
-        <ul id="alumnos">
-            <li>Cargando...</li>
-        </ul>
+
+        <div class="row">
+            <div class="col">
+                <ul id="alumnos">
+                    <li>Cargando datos....</li>
+                </ul>
+            </div>
+            <div class="col formulario">
+                
+                <input type="text" id="inputId" placeholder="id" readonly>
+                <br>
+                <input type="text" id="inputNombre" placeholder="Escribe nombre">
+                <br>
+                
+                <input type="button" value="Guardar" onclick="guardar()">
+                <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
+
+            </div>
+        </div>
 
     </main>
 
-
+    <script src="js/ajax.js"></script>
     <script src="js/main.js"></script>
-    <!-- <script>
-
-        let alumno = document.getElementById('alumnos');
-        
-        for (let i=1; i<5; i++) {
-            alumno.innerHTML += '<li><img src="img/avatar' + i + '.png" alt="avatar">Alumno ' + i + '</li>'
-        }
-
-    </script> -->
 
 </body>
 </html>
