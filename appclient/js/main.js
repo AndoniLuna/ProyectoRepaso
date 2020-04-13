@@ -1,7 +1,7 @@
 "use strict";
 // este array se carga de forma asincrona mediante Ajax
-const endpoint = 'http://127.0.0.1:5500/appclient/js/data/persona.json';
-//const endpoint = 'http://localhost:8080/apprest/api/personas/';
+//const endpoint = 'http://127.0.0.1:5500/appclient/js/data/persona.json';
+const endpoint = 'http://localhost:8080/apprest/api/personas/';
 let personas = [];
 
 window.addEventListener('load', init() );
@@ -10,17 +10,7 @@ function init(){
     console.debug('Document Load and Ready');    
     listener();
 
-    const promesa = ajax("GET", endpoint, undefined);
-    promesa
-    .then( data => {
-            console.trace('promesa resolve'); 
-            personas = data;
-            pintarLista( personas );
-
-    }).catch( error => {
-            console.warn('promesa rejectada');
-            alert(error);
-    });
+    cargarAlumnos();
 
     console.debug('continua la ejecuion del script de forma sincrona');
     // CUIDADO!!!, es asincrono aqui personas estaria sin datos
@@ -72,7 +62,7 @@ function pintarLista( arrayPersonas ){
     lista.innerHTML = ''; // vaciar html 
     arrayPersonas.forEach( (p,i) => lista.innerHTML += `<li>
                                                         <img src="img/${p.avatar}" alt="avatar">${p.nombre}
-                                                        <i class="fas fa-pencil-ruler" onclick="seleccionar(${i})"></i>
+                                                        <i class="fas fa-pencil-ruler" onclick="seleccionar(${i},${p.id})"></i>
                                                         <i class="fas fa-trash" onclick="eliminar(${i},${p.id})"></i>
                                                     </li>`);
 }
@@ -83,12 +73,18 @@ function eliminar(indice){
     const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada.nombre} ?`;
     if ( confirm(mensaje) ){
 
-        //TODO mirar como remover de una posicion
-        //personas = personas.splice(indice,1);
-        personas = personas.filter( el => el.id != personaSeleccionada.id) 
-        pintarLista(personas);
-        //TODO llamada al servicio rest
+        //personas = personas.filter( el => el.id != personaSeleccionada.id) 
+        //pintarLista(personas);
+        const promesa = ajax("DELETE", `http://localhost:8080/apprest/api/personas/${personaSeleccionada.id}`, undefined);
+        promesa
+            .then( data => {
+                console.trace('promesa resolve'); 
+                cargarAlumnos();
 
+        }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+        });
     }
 
 }
@@ -98,16 +94,28 @@ function seleccionar(indice, id){
     let  personaSeleccionada = {};
 
     if ( id != 0 ){
-        personaSeleccionada = personas[indice];
+        //personaSeleccionada = personas[indice];
+        const promesa = ajax("GET", `http://localhost:8080/apprest/api/personas/${id}`, undefined);
+        promesa
+        .then( data => {
+            console.trace('promesa resolve'); 
+            personaSeleccionada = data;
+            console.debug('click guardar persona %o', personaSeleccionada);
+   
+            //rellernar formulario
+            document.getElementById('inputId').value = personaSeleccionada.id;
+            document.getElementById('inputNombre').value = personaSeleccionada.nombre;
+
+        }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+        });
     }else{
         personaSeleccionada = { "id":0, "nombre": "sin nombre" };
+        //rellernar formulario
+        document.getElementById('inputId').value = personaSeleccionada.id;
+        document.getElementById('inputNombre').value = personaSeleccionada.nombre;
     }
-    
-    console.debug('click guardar persona %o', personaSeleccionada);
-   
-    //rellernar formulario
-    document.getElementById('inputId').value = personaSeleccionada.id;
-    document.getElementById('inputNombre').value = personaSeleccionada.nombre;
    
 }
 
@@ -118,17 +126,43 @@ function guardar(){
     let nombre = document.getElementById('inputNombre').value;
 
     let persona = {
-        "id" : id,
+        "id" : parseInt(id),
         "nombre" : nombre,
-        "avatar" : "avatar7.png"
+        /*"avatar" : "avatar7.png",
+        "sexo"   : "h"*/
     };
 
     console.debug('persona a guardar %o', persona);
 
-    //TODO llamar servicio rest
+    //personas.push(persona);
+    //pintarLista(personas);
 
-    personas.push(persona);
-    pintarLista(personas);
+    if (persona.id === 0){
+        persona.avatar = "avatar7.png";
+        persona.sexo = "h";
+        const promesa = ajax("POST", `http://localhost:8080/apprest/api/personas/?persona=${persona}`, undefined);
+        promesa
+        .then( data => {
+            console.trace('promesa resolve'); 
+            cargarAlumnos();
+
+        }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+        });
+    }else{
+        const promesa = ajax("PUT", `http://localhost:8080/apprest/api/personas/${persona.id}?persona=${persona}`, undefined);
+        promesa
+        .then( data => {
+            console.trace('promesa resolve'); 
+            cargarAlumnos();
+
+        }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+        });
+    }
+    
 
 }
 
@@ -148,5 +182,21 @@ function busqueda( sexo = 't', nombreBuscar = '' ){
     }else if('t' === sexo && !nombreBuscar){
         pintarLista(personas);
     }
+
+}
+
+function cargarAlumnos(){
+
+    const promesa = ajax("GET", endpoint, undefined);
+    promesa
+    .then( data => {
+            console.trace('promesa resolve'); 
+            personas = data;
+            pintarLista( personas );
+
+    }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+    });
 
 }
