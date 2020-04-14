@@ -10,6 +10,8 @@ function init(){
     console.debug('Document Load and Ready');    
     listener();
 
+    initGallery();
+
     cargarAlumnos();
 
     console.debug('continua la ejecuion del script de forma sincrona');
@@ -105,16 +107,93 @@ function seleccionar(indice, id){
             //rellernar formulario
             document.getElementById('inputId').value = personaSeleccionada.id;
             document.getElementById('inputNombre').value = personaSeleccionada.nombre;
+            document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
+
+            //seleccionar Avatar
+            const avatares = document.querySelectorAll('#gallery img');
+            avatares.forEach( el => {
+                el.classList.remove('selected');
+                if ( "img/"+personaSeleccionada.avatar == el.dataset.path ){
+                    el.classList.add('selected');
+                }
+            });
+
+            const sexo = personaSeleccionada.sexo;
+            let checkHombre = document.getElementById('sexoh');
+            let checkMujer = document.getElementById('sexom');
+
+            if ( sexo == "h"){
+                checkHombre.checked = 'checked';
+                checkMujer.checked = '';
+
+            }else{
+                checkHombre.checked = '';
+                checkMujer.checked = 'checked';
+            }
+
+            /*
+            let select = document.getElementById('inputSexo');
+            const sexo = personaSeleccionada.sexo;
+            switch( sexo ){
+                case "h":
+                    select.item(1).selected = "selected";
+                    break;
+                case "m":
+                    select.item(2).selected = "selected";
+                    break;
+                default:
+                    select.item(0).selected = "selected";
+                    break;
+            }
+            */
 
         }).catch( error => {
             console.warn('promesa rejectada');
             alert(error);
         });
     }else{
-        personaSeleccionada = { "id":0, "nombre": "sin nombre" };
+        personaSeleccionada = { "id":0, "nombre": "sin nombre" , "avatar" : "avatar7.png", "sexo": "h" };
         //rellernar formulario
         document.getElementById('inputId').value = personaSeleccionada.id;
         document.getElementById('inputNombre').value = personaSeleccionada.nombre;
+        document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
+
+        //seleccionar Avatar
+        const avatares = document.querySelectorAll('#gallery img');
+        avatares.forEach( el => {
+            el.classList.remove('selected');
+            if ( "img/"+personaSeleccionada.avatar == el.dataset.path ){
+                el.classList.add('selected');
+            }
+        });
+
+        const sexo = personaSeleccionada.sexo;
+        let checkHombre = document.getElementById('sexoh');
+        let checkMujer = document.getElementById('sexom');
+
+        if ( sexo == "h"){
+            checkHombre.checked = 'checked';
+            checkMujer.checked = '';
+
+        }else{
+            checkHombre.checked = '';
+            checkMujer.checked = 'checked';
+        }
+
+        /*
+        let select = document.getElementById('inputSexo');
+        const sexo = personaSeleccionada.sexo;
+        switch( sexo ){
+            case "h":
+                select.item(1).selected = "selected";
+                break;
+            case "m":
+                select.item(2).selected = "selected";
+                break;
+            default:
+                select.item(0).selected = "selected";
+        }
+        */
     }
    
 }
@@ -124,12 +203,14 @@ function guardar(){
     console.trace('click guardar');
     let id = document.getElementById('inputId').value;
     let nombre = document.getElementById('inputNombre').value;
+    const avatar = document.getElementById('inputAvatar').value;
+    const sexo = document.getElementById('inputSexo').value;
 
     let persona = {
         "id" : parseInt(id),
         "nombre" : nombre,
-        /*"avatar" : "avatar7.png",
-        "sexo"   : "h"*/
+        "avatar" : avatar,
+        "sexo"   : sexo
     };
 
     console.debug('persona a guardar %o', persona);
@@ -137,9 +218,7 @@ function guardar(){
     //personas.push(persona);
     //pintarLista(personas);
 
-    if (persona.id === 0){
-        persona.avatar = "avatar7.png";
-        persona.sexo = "h";
+    if (persona.id == 0){
         const promesa = ajax("POST", `http://localhost:8080/apprest/api/personas/?persona=${persona}`, undefined);
         promesa
         .then( data => {
@@ -182,6 +261,33 @@ function busqueda( sexo = 't', nombreBuscar = '' ){
     }else if('t' === sexo && !nombreBuscar){
         pintarLista(personas);
     }
+
+}
+
+/**
+ * Carga todas las imagen de los avatares
+ */
+function initGallery(){
+    let divGallery =  document.getElementById('gallery');
+    for ( let i = 1; i <= 7 ; i++){
+        divGallery.innerHTML += `<img onclick="selectAvatar(event)" 
+                                      class="avatar" 
+                                      data-path="img/avatar${i}.png"
+                                      src="img/avatar${i}.png">`;
+    }
+}
+
+function selectAvatar(evento){
+    console.trace('click avatar');
+    const avatares = document.querySelectorAll('#gallery img');
+    //eliminamos la clases 'selected' a todas las imagenes del div#gallery
+    avatares.forEach( el => el.classList.remove('selected') );
+    // ponemos clase 'selected' a la imagen que hemos hecho click ( evento.target )
+    evento.target.classList.add('selected');
+
+    let iAvatar = document.getElementById('inputAvatar');
+    //@see: https://developer.mozilla.org/es/docs/Learn/HTML/como/Usando_atributos_de_datos
+    iAvatar.value = evento.target.dataset.path;
 
 }
 
