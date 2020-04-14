@@ -12,7 +12,17 @@ function init(){
 
     initGallery();
 
-    cargarAlumnos();
+    const promesa = ajax("GET", endpoint, undefined);
+    promesa
+    .then( data => {
+            console.trace('promesa resolve'); 
+            personas = data;
+            pintarLista( personas );
+
+    }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+    });
 
     console.debug('continua la ejecuion del script de forma sincrona');
     // CUIDADO!!!, es asincrono aqui personas estaria sin datos
@@ -77,11 +87,20 @@ function eliminar(indice){
 
         //personas = personas.filter( el => el.id != personaSeleccionada.id) 
         //pintarLista(personas);
-        const promesa = ajax("DELETE", `http://localhost:8080/apprest/api/personas/${personaSeleccionada.id}`, undefined);
-        promesa
+        const url = endpoint + personaSeleccionada.id;
+        ajax("DELETE", url, undefined)
             .then( data => {
-                console.trace('promesa resolve'); 
-                cargarAlumnos();
+                // conseguir de nuevo todos los alumnos
+                ajax("GET", endpoint, undefined)               
+                .then( data => {
+                        console.trace('promesa resolve'); 
+                        personas = data;
+                        pintarLista( personas );
+            
+                }).catch( error => {
+                        console.warn('promesa rejectada');
+                        alert(error);
+                });
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -204,7 +223,8 @@ function guardar(){
     let id = document.getElementById('inputId').value;
     let nombre = document.getElementById('inputNombre').value;
     const avatar = document.getElementById('inputAvatar').value;
-    const sexo = document.getElementById('inputSexo').value;
+    //const sexo = document.getElementById('inputSexo').value;
+    const sexo = document.getElementsByTagName('inputSexo').value;
 
     let persona = {
         "id" : parseInt(id),
@@ -219,22 +239,38 @@ function guardar(){
     //pintarLista(personas);
 
     if (persona.id == 0){
-        const promesa = ajax("POST", `http://localhost:8080/apprest/api/personas/?persona=${persona}`, undefined);
-        promesa
-        .then( data => {
-            console.trace('promesa resolve'); 
-            cargarAlumnos();
+        ajax("POST", endpoint, persona)
+        .then( data => { 
+            // conseguir de nuevo todos los alumnos
+            ajax("GET", endpoint, undefined)               
+            .then( data => {
+                    console.trace('promesa resolve'); 
+                    personas = data;
+                    pintarLista( personas );
+        
+            }).catch( error => {
+                    console.warn('promesa rejectada');
+                    alert(error);
+            });
 
         }).catch( error => {
             console.warn('promesa rejectada');
             alert(error);
         });
     }else{
-        const promesa = ajax("PUT", `http://localhost:8080/apprest/api/personas/${persona.id}?persona=${persona}`, undefined);
-        promesa
+        ajax("PUT", `http://localhost:8080/apprest/api/personas/${persona.id}`, persona)
         .then( data => {
-            console.trace('promesa resolve'); 
-            cargarAlumnos();
+            // conseguir de nuevo todos los alumnos
+            ajax("GET", endpoint, undefined)               
+            .then( data => {
+                    console.trace('promesa resolve'); 
+                    personas = data;
+                    pintarLista( personas );
+        
+            }).catch( error => {
+                    console.warn('promesa rejectada');
+                    alert(error);
+            });
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -288,21 +324,5 @@ function selectAvatar(evento){
     let iAvatar = document.getElementById('inputAvatar');
     //@see: https://developer.mozilla.org/es/docs/Learn/HTML/como/Usando_atributos_de_datos
     iAvatar.value = evento.target.dataset.path;
-
-}
-
-function cargarAlumnos(){
-
-    const promesa = ajax("GET", endpoint, undefined);
-    promesa
-    .then( data => {
-            console.trace('promesa resolve'); 
-            personas = data;
-            pintarLista( personas );
-
-    }).catch( error => {
-            console.warn('promesa rejectada');
-            alert(error);
-    });
 
 }
