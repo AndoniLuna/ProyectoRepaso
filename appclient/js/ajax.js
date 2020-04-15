@@ -2,7 +2,7 @@
  * llamada ajax en vanilla javascript
  * @param {*} metodo 
  * @param {*} url 
- * @param {*} datos en formato json para el request body
+ * @param {*} datos en formato json para el request body, pero luego hacemos un JSON.stringify
  * @return Promise
  */
 function ajax( metodo, url, datos ){
@@ -24,7 +24,7 @@ function ajax( metodo, url, datos ){
                     resolve(jsonData);
                 }else{
                     // falla promesa, catch
-                    reject( Error( this.status ));
+                    reject( Error( JSON.parse(this.responseText) ));
                 }               
             }// readyState == 4
 

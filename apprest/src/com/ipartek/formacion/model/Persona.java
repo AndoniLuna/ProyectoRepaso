@@ -1,16 +1,27 @@
+package com.ipartek.formacion.model;
+
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotEmpty;
+
 public class Persona {
 
 	private int id;
+	
+	@Size( min=2, max = 50, message = "minimo 2 maximo 50 carcateres" )
 	private String nombre;
+	
+	@NotEmpty
 	private String avatar;
+	
+	@Pattern(regexp = "(\\W|^)(h|m)(\\W|$)" )
 	private String sexo;
 	
 	public Persona() {
 		super();
 		this.id = 0;
-		this.nombre = "";		
+		this.nombre = "";
 		this.avatar = "avatar1.png";
-		this.sexo = "";
+		this.sexo = "m";
 	}
 
 	public Persona(int id, String nombre, String avatar, String sexo) {		
@@ -19,7 +30,6 @@ public class Persona {
 		this.nombre = nombre;
 		this.avatar = avatar;
 		this.sexo = sexo;
-		
 	}
 
 	public int getId() {

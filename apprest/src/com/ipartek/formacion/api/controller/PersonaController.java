@@ -1,9 +1,14 @@
 package com.ipartek.formacion.api.controller;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,17 +30,20 @@ public class PersonaController {
 
 	private static final Logger LOGGER = Logger.getLogger(PersonaController.class.getCanonicalName());
 
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	private Validator validator = factory.getValidator();
+
 	@Context
 	private ServletContext context;
 
 	private static ArrayList<Persona> personas = new ArrayList<Persona>();
 	private static int ultimoId = 0;
-	
+
 	static {
-		personas.add( new Persona(1,"Arantxa","avatar1.png", "m") );
-		personas.add( new Persona(2,"Idoia","avatar2.png", "m") );
-		personas.add( new Persona(3,"Iker","avatar3.png", "h") );
-		personas.add( new Persona(4,"Hodei","avatar4.png", "h") );
+		personas.add(new Persona(1, "Arantxa", "avatar1.png", "m"));
+		personas.add(new Persona(2, "Idoia", "avatar2.png", "m"));
+		personas.add(new Persona(3, "Iker", "avatar3.png", "h"));
+		personas.add(new Persona(4, "Hodei", "avatar4.png", "h"));
 		ultimoId = 4;
 	}
 
@@ -67,35 +75,88 @@ public class PersonaController {
 	@POST
 	public Response insert(Persona persona) {
 		LOGGER.info("insert (" + persona + ")");
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
-		int id = ++ultimoId;
+		// validar pojo
+		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
 
-		if (persona.getId() == 0) {
-			persona.setId(id);
+		if (violations.isEmpty()) {
+
+			int id = ++ultimoId;
+
+			if (persona.getId() == 0) {
+				persona.setId(id);
+			}
+
+			personas.add(persona);
+
+			response = Response.status(Status.CREATED).entity(persona).build();
+
+		} else {
+
+			ArrayList<String> errores = new ArrayList<String>();
+			for (ConstraintViolation<Persona> violation : violations) {
+				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
+			}
+
+			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
+
 		}
 
-		personas.add(persona);
-
-		return Response.status(Status.CREATED).entity(persona).build();
+		return response;
 	}
 
 	@PUT
 	@Path("/{id: \\d+}")
 	public Response update(@PathParam("id") int id, Persona persona) {
 		LOGGER.info("update");
-		Integer i = obtenerIndicePorId(persona.getId());
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		boolean encontrado = false;
+		
+		// Comprobar que la persona exista
+		for (int i = 0; i < personas.size(); i++) {
+			if (id == personas.get(i).getId()) {
+				encontrado = true;
+				break;
+			}
+		}
 
-		personas.set((int) i, persona);
-		return Response.status(Status.CREATED).entity(persona).build();
+		if (encontrado == false) {
+			response = Response.status(Status.NOT_FOUND).build();
+		} else {
+			// Validar Pojo
+			Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
+
+			if (violations.isEmpty()) {
+
+				Integer i = obtenerIndicePorId(persona.getId());
+
+				personas.set((int) i, persona);
+
+				response = Response.status(Status.CREATED).entity(persona).build();
+
+			} else {
+
+				ArrayList<String> errores = new ArrayList<String>();
+				for (ConstraintViolation<Persona> violation : violations) {
+					errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
+				}
+
+				response = Response.status(Status.BAD_REQUEST).entity(errores).build();
+
+			}
+		}
+
+		return response;
 	}
 
 	@DELETE
 	@Path("/{id: \\d+}")
 	public Response delete(@PathParam("id") int id) {
 		LOGGER.info("eliminar a la persona con id(" + id + ")");
-		
+
 		Persona persona = null;
-		
+
 		for (int i = 0; i < personas.size(); i++) {
 			if (id == personas.get(i).getId()) {
 				persona = personas.get(i);
@@ -103,13 +164,13 @@ public class PersonaController {
 				break;
 			}
 		}
-		
+
 		if (persona == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		} else {
 			return Response.status(Status.OK).entity(persona).build();
 		}
-		
+
 	}
 
 	// Metodo para obtener el indice del array
