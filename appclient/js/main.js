@@ -177,13 +177,13 @@ function seleccionar(indice, id){
         document.getElementById('inputId').value = personaSeleccionada.id;
         document.getElementById('inputNombre').value = personaSeleccionada.nombre;
         document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
-        document.getElementById('inputSexo').value = personaSeleccionada.sexo;
+        document.getElementsByName('inputSexo').value = personaSeleccionada.sexo;
 
         //seleccionar Avatar
         const avatares = document.querySelectorAll('#gallery img');
         avatares.forEach( el => {
             el.classList.remove('selected');
-            if ( "img/"+personaSeleccionada.avatar == el.dataset.path ){
+            if ( 'img/' + personaSeleccionada.avatar == el.dataset.path ){
                 el.classList.add('selected');
             }
         });
