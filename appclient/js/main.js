@@ -127,6 +127,7 @@ function seleccionar(indice, id){
             document.getElementById('inputId').value = personaSeleccionada.id;
             document.getElementById('inputNombre').value = personaSeleccionada.nombre;
             document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
+            document.getElementsByName('inputSexo').value = personaSeleccionada.sexo;
 
             //seleccionar Avatar
             const avatares = document.querySelectorAll('#gallery img');
@@ -176,6 +177,7 @@ function seleccionar(indice, id){
         document.getElementById('inputId').value = personaSeleccionada.id;
         document.getElementById('inputNombre').value = personaSeleccionada.nombre;
         document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
+        document.getElementById('inputSexo').value = personaSeleccionada.sexo;
 
         //seleccionar Avatar
         const avatares = document.querySelectorAll('#gallery img');
@@ -224,7 +226,11 @@ function guardar(){
     let nombre = document.getElementById('inputNombre').value;
     const avatar = document.getElementById('inputAvatar').value;
     //const sexo = document.getElementById('inputSexo').value;
-    const sexo = document.getElementsByTagName('inputSexo').value;
+    //const sexo = document.getElementsByName('inputSexo').value;
+    let sexo = document.getElementById('sexoh').value;
+    if (document.getElementById('sexom').checked){
+        sexo = document.getElementById('sexom').value;
+    }
 
     let persona = {
         "id" : parseInt(id),
@@ -324,5 +330,6 @@ function selectAvatar(evento){
     let iAvatar = document.getElementById('inputAvatar');
     //@see: https://developer.mozilla.org/es/docs/Learn/HTML/como/Usando_atributos_de_datos
     iAvatar.value = evento.target.dataset.path;
+    iAvatar.value = iAvatar.value.slice(4,15);
 
 }
