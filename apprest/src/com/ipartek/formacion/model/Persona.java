@@ -2,6 +2,7 @@ package com.ipartek.formacion.model;
 
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 public class Persona {
 
