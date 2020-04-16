@@ -1,5 +1,6 @@
 package com.ipartek.formacion.api.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -54,7 +55,11 @@ public class PersonaController {
 	public Persona getPersona(@PathParam("id") int id) {
 		LOGGER.info("getPersona");
 		Persona registro = null;
-		registro = personaDAO.getById(id);
+		try {
+			registro = personaDAO.getById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return registro;
 	}
