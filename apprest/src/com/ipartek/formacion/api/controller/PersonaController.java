@@ -30,26 +30,13 @@ import com.ipartek.formacion.model.dao.PersonaDAO;
 public class PersonaController {
 
 	private static final Logger LOGGER = Logger.getLogger(PersonaController.class.getCanonicalName());
+	private static PersonaDAO personaDAO = PersonaDAO.getInstance();
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private Validator validator = factory.getValidator();
-	
-	//TODO implementar patron Singleton, deberiamos haber usado getInstance();
-	private static PersonaDAO personaDAO = new PersonaDAO();
 
 	@Context
 	private ServletContext context;
-
-	private static ArrayList<Persona> personas = new ArrayList<Persona>();
-	private static int ultimoId = 0;
-
-	static {
-		personas.add(new Persona(1, "Arantxa", "avatar1.png", "m"));
-		personas.add(new Persona(2, "Idoia", "avatar2.png", "m"));
-		personas.add(new Persona(3, "Iker", "avatar3.png", "h"));
-		personas.add(new Persona(4, "Hodei", "avatar4.png", "h"));
-		ultimoId = 4;
-	}
 
 	public PersonaController() {
 		super();
@@ -66,15 +53,10 @@ public class PersonaController {
 	@Path("/{id: \\d+}")
 	public Persona getPersona(@PathParam("id") int id) {
 		LOGGER.info("getPersona");
+		Persona registro = null;
+		registro = personaDAO.getById(id);
 
-		Integer i = obtenerIndicePorId(id);
-
-		if (i == null) {
-			return null;
-		}
-
-		return new Persona(personas.get(i).getId(), personas.get(i).getNombre(), personas.get(i).getAvatar(),
-				personas.get(i).getSexo());
+		return registro;
 	}
 
 	@POST
@@ -87,15 +69,13 @@ public class PersonaController {
 
 		if (violations.isEmpty()) {
 
-			int id = ++ultimoId;
-
-			if (persona.getId() == 0) {
-				persona.setId(id);
-			}
-
-			personas.add(persona);
-
-			response = Response.status(Status.CREATED).entity(persona).build();
+			try {
+				personaDAO.insert(persona);
+				response = Response.status(Status.CREATED).entity(persona).build();
+				
+			}catch (Exception e) {
+				response = Response.status(Status.CONFLICT).entity(persona).build();
+			}	
 
 		} else {
 
@@ -115,42 +95,26 @@ public class PersonaController {
 	@Path("/{id: \\d+}")
 	public Response update(@PathParam("id") int id, Persona persona) {
 		LOGGER.info("update");
-		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
-		boolean encontrado = false;
+		Response response = Response.status(Status.NOT_FOUND).entity(persona).build();
 		
-		// Comprobar que la persona exista
-		for (int i = 0; i < personas.size(); i++) {
-			if (id == personas.get(i).getId()) {
-				encontrado = true;
-				break;
+		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
+		if (!violations.isEmpty()) {
+			ArrayList<String> errores = new ArrayList<String>();
+			for (ConstraintViolation<Persona> violation : violations) {
+				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
-		}
-
-		if (encontrado == false) {
-			response = Response.status(Status.NOT_FOUND).build();
-		} else {
-			// Validar Pojo
-			Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
-
-			if (violations.isEmpty()) {
-
-				Integer i = obtenerIndicePorId(persona.getId());
-
-				personas.set((int) i, persona);
-
-				response = Response.status(Status.CREATED).entity(persona).build();
-
-			} else {
-
-				ArrayList<String> errores = new ArrayList<String>();
-				for (ConstraintViolation<Persona> violation : violations) {
-					errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
-				}
-
-				response = Response.status(Status.BAD_REQUEST).entity(errores).build();
-
-			}
-		}
+			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
+			
+		}else {
+			
+			try {
+				personaDAO.update(persona);
+				response = Response.status(Status.OK).entity(persona).build();
+			}catch (Exception e) {
+				response = Response.status(Status.CONFLICT).entity(persona).build();
+			}	
+			
+		}	
 
 		return response;
 	}
@@ -160,33 +124,21 @@ public class PersonaController {
 	public Response delete(@PathParam("id") int id) {
 		LOGGER.info("eliminar a la persona con id(" + id + ")");
 
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 		Persona persona = null;
-
-		for (int i = 0; i < personas.size(); i++) {
-			if (id == personas.get(i).getId()) {
-				persona = personas.get(i);
-				personas.remove(i);
-				break;
-			}
+		
+		try {
+			personaDAO.delete(id);
+			response = Response.status(Status.OK).entity(persona).build();
+			
+		}catch (SQLException e) {
+			response = Response.status(Status.CONFLICT).entity(persona).build();
+			
+		}catch (Exception e) {
+			response = Response.status(Status.NOT_FOUND).entity(persona).build();
 		}
+		return response;
 
-		if (persona == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		} else {
-			return Response.status(Status.OK).entity(persona).build();
-		}
-
-	}
-
-	// Metodo para obtener el indice del array
-	private Integer obtenerIndicePorId(int id) {
-		for (int i = 0; i < personas.size(); i++) {
-			if (personas.get(i).getId() == id) {
-				return i;
-			}
-		}
-
-		return null;
 	}
 
 }
