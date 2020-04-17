@@ -8,21 +8,12 @@ window.addEventListener('load', init() );
 
 function init(){
     console.debug('Document Load and Ready');    
-    listener();
 
     initGallery();
 
-    const promesa = ajax("GET", endpoint, undefined);
-    promesa
-    .then( data => {
-            console.trace('promesa resolve'); 
-            personas = data;
-            pintarLista( personas );
+    cargarDatos();
 
-    }).catch( error => {
-            console.warn('promesa rejectada');
-            alert(error);
-    });
+    listener();
 
     console.debug('continua la ejecuion del script de forma sincrona');
     // CUIDADO!!!, es asincrono aqui personas estaria sin datos
@@ -38,31 +29,17 @@ function listener(){
     let selectorSexo = document.getElementById('selectorSexo');
     let inputNombre = document.getElementById('inombre');
 
-
-
-    selectorSexo.addEventListener('change', busqueda( selectorSexo.value, inputNombre.value ) );
-    /*
+    
     selectorSexo.addEventListener('change', function(){
-        const sexo = selectorSexo.value;
-        console.debug('cambiado select ' + sexo);
-        if ( 't' != sexo ){
-            const personasFiltradas = personas.filter( el => el.sexo == sexo );
-            pintarLista(personasFiltradas);
-        }else{
-            pintarLista(personas);
-        }    
+        console.info('Busqueda sexo %o nombre %o', selectorSexo, inputNombre );
+    
+        busqueda(selectorSexo.value, inputNombre.value);
     });
-    */
 
     inputNombre.addEventListener('keyup', function(){
-        const busqueda = inputNombre.value.toLowerCase();
         console.debug('tecla pulsada, valor input ' +  busqueda );
-        if ( busqueda ){
-            const personasFiltradas = personas.filter( el => el.nombre.toLowerCase().includes(busqueda));
-            pintarLista(personasFiltradas);
-        }else{
-            pintarLista(personas);
-        }    
+        
+        busqueda(selectorSexo.value, inputNombre.value);
     });
 
 
@@ -91,16 +68,7 @@ function eliminar(indice){
         ajax("DELETE", url, undefined)
             .then( data => {
                 // conseguir de nuevo todos los alumnos
-                ajax("GET", endpoint, undefined)               
-                .then( data => {
-                        console.trace('promesa resolve'); 
-                        personas = data;
-                        pintarLista( personas );
-            
-                }).catch( error => {
-                        console.warn('promesa rejectada');
-                        alert(error);
-                });
+                cargarDatos();
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -248,16 +216,7 @@ function guardar(){
         ajax("POST", endpoint, persona)
         .then( data => { 
             // conseguir de nuevo todos los alumnos
-            ajax("GET", endpoint, undefined)               
-            .then( data => {
-                    console.trace('promesa resolve'); 
-                    personas = data;
-                    pintarLista( personas );
-        
-            }).catch( error => {
-                    console.warn('promesa rejectada');
-                    alert(error);
-            });
+            cargarDatos();
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -287,25 +246,6 @@ function guardar(){
 
 }
 
-function busqueda( sexo = 't', nombreBuscar = '' ){
-
-    console.info('Busqueda sexo %o nombre %o', sexo, nombreBuscar );
-    
-    if ('t' != sexo && nombreBuscar){
-        const personasFiltradas = personas.filter( el => el.sexo == sexo && el.nombre.toLowerCase().includes(nombreBuscar));
-        pintarLista(personasFiltradas);
-    }else if ('t' === sexo && nombreBuscar){
-        const personasFiltradas = personas.filter(el.nombre.toLowerCase().includes(nombreBuscar));
-        pintarLista(personasFiltradas);
-    }else if ('t' != sexo && !nombreBuscar){
-        const personasFiltradas = personas.filter( el => el.sexo == sexo);
-        pintarLista(personasFiltradas);
-    }else if('t' === sexo && !nombreBuscar){
-        pintarLista(personas);
-    }
-
-}
-
 /**
  * Carga todas las imagen de los avatares
  */
@@ -332,4 +272,32 @@ function selectAvatar(evento){
     iAvatar.value = evento.target.dataset.path;
     iAvatar.value = iAvatar.value.slice(4,15);
 
+}
+
+function cargarDatos(){
+    ajax("GET", endpoint, undefined)
+    .then( data => {
+            console.trace('promesa resolve'); 
+            personas = data;
+            pintarLista( personas );
+
+    }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+    });
+}
+
+function busqueda(sexo, nombre){
+    if ('t' != sexo && nombre){
+        let personasFiltradas = personas.filter( el => el.sexo == sexo && el.nombre.toLowerCase().includes(nombre));
+        pintarLista(personasFiltradas);
+    }else if ('t' === sexo && nombre){
+        let personasFiltradas = personas.filter(el => el.nombre.toLowerCase().includes(nombre));
+        pintarLista(personasFiltradas);
+    }else if ('t' != sexo && !nombre){
+        let personasFiltradas = personas.filter( el => el.sexo == sexo);
+        pintarLista(personasFiltradas);
+    }else if('t' === sexo && !nombre){
+        pintarLista(personas);
+    }
 }

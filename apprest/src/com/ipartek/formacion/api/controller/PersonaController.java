@@ -133,7 +133,7 @@ public class PersonaController {
 		Persona persona = null;
 		
 		try {
-			personaDAO.delete(id);
+			persona = personaDAO.delete(id);
 			response = Response.status(Status.OK).entity(persona).build();
 			
 		}catch (SQLException e) {

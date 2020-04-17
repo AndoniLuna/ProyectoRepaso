@@ -21,7 +21,12 @@ function ajax( metodo, url, datos ){
                     console.debug( jsonData );
 
                     // funciona promesa, then
-                    resolve(jsonData);
+                    if (jsonData){
+                        resolve(jsonData);
+                    }else{
+                        resolve();
+                    }
+                    
                 }else{
                     // falla promesa, catch
                     reject( Error( JSON.parse(this.responseText) ));
