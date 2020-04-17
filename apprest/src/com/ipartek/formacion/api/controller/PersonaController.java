@@ -46,7 +46,7 @@ public class PersonaController {
 	@GET
 	public ArrayList<Persona> getAll() {
 		LOGGER.info("getAll");
-		ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll(); 
+		ArrayList<Persona> registros = (ArrayList<Persona>) personaDAO.getAll();
 		return registros;
 	}
 
@@ -58,6 +58,7 @@ public class PersonaController {
 		try {
 			registro = personaDAO.getById(id);
 		} catch (Exception e) {
+			LOGGER.info("Error al obtener a la persona con id: " + id);
 			e.printStackTrace();
 		}
 
