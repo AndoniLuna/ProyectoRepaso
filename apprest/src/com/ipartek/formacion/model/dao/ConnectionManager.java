@@ -1,6 +1,7 @@
 package com.ipartek.formacion.model.dao;
 
 import java.sql.Connection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;

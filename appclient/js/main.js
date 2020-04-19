@@ -223,7 +223,7 @@ function guardar(){
 
         }).catch( error => {
             console.warn('promesa rejectada');
-            alert(error);
+            alert(error.informacion);
         });
     }else{
         ajax("PUT", `http://localhost:8080/apprest/api/personas/${persona.id}`, persona)
@@ -242,7 +242,7 @@ function guardar(){
 
         }).catch( error => {
             console.warn('promesa rejectada');
-            alert(error);
+            alert(error.informacion);
         });
     }
     
