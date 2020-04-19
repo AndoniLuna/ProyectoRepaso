@@ -24,10 +24,11 @@ public class ConnectionManager {
 			}
 
 			conn = ds.getConnection();
+			LOGGER.log( Level.INFO, "conexion establecida");
 
 		} catch (Exception e) {
 
-			//TODO logger
+			LOGGER.log( Level.SEVERE, "Exception", e );
 			e.printStackTrace();
 		}
 

@@ -6,6 +6,9 @@ let personas = [];
 
 window.addEventListener('load', init() );
 
+/**
+ * Se ejecuta cuando todo esta cargado
+ */
 function init(){
     console.debug('Document Load and Ready');    
 

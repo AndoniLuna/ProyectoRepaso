@@ -53,7 +53,6 @@ public class PersonaDAO implements IDAO<Persona> {
 			
 			
 		} catch (SQLException e) {
-			LOGGER.info("Error en el DAO al obtener las personas");
 			e.printStackTrace();
 		}
 

@@ -80,7 +80,9 @@ public class PersonaController {
 				response = Response.status(Status.CREATED).entity(persona).build();
 				
 			}catch (Exception e) {
-				response = Response.status(Status.CONFLICT).entity(persona).build();
+				ResponseBody responseBody = new ResponseBody();
+				responseBody.setInformacion("nombre duplicado");
+				response = Response.status(Status.CONFLICT).entity(responseBody).build();
 			}	
 
 		} else {
@@ -117,7 +119,9 @@ public class PersonaController {
 				personaDAO.update(persona);
 				response = Response.status(Status.OK).entity(persona).build();
 			}catch (Exception e) {
-				response = Response.status(Status.CONFLICT).entity(persona).build();
+				ResponseBody responseBody = new ResponseBody();
+				responseBody.setInformacion("nombre duplicado");
+				response = Response.status(Status.CONFLICT).entity(responseBody).build();
 			}	
 			
 		}	
@@ -135,7 +139,16 @@ public class PersonaController {
 		
 		try {
 			persona = personaDAO.delete(id);
-			response = Response.status(Status.OK).entity(persona).build();
+			ResponseBody responseBody = new ResponseBody();
+			responseBody.setData(persona);
+			responseBody.setInformacion("persona eliminada");
+			//ejemplo envio hipermedia
+			responseBody.getHypermedias()
+					.add(new Hipermedia("listado personas", "GET", "http://localhost:8080/apprest/api/personas/"));
+			responseBody.getHypermedias()
+					.add(new Hipermedia("detalle personas", "GET", "http://localhost:8080/apprest/api/personas/{id}"));
+
+			response = Response.status(Status.OK).entity(responseBody).build();
 			
 		}catch (SQLException e) {
 			response = Response.status(Status.CONFLICT).entity(persona).build();
