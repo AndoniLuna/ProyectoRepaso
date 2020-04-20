@@ -59,16 +59,32 @@
                 
                 <input type="button" value="Guardar" onclick="guardar()">
                 <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
+                <input type="button" id="btmodal" value="Comprar Cursos">
 
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <ul id="cursos">
-                    <li>Cargando datos....</li>
-                </ul>
+        <div id="modal" class="modal">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="cerrarmodal">&times;</span>
+                    <h1>Lista de cursos</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="container-filter">
+                        <p>Buscador</p>           
+                        <input type="search" id="inombrecurso" placeholder="Escribe nombre">
+                    </div>
+                    <ul id="cursos">
+                        <li>Cargando datos....</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <h1>Lista de cursos</h1>
+                </div>
             </div>
+          
         </div>
 
     </main>

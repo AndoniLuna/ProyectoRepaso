@@ -1,8 +1,7 @@
 "use strict";
 // este array se carga de forma asincrona mediante Ajax
 //const endpoint = 'http://127.0.0.1:5500/appclient/js/data/persona.json';
-const endpoint = 'http://localhost:8080/apprest/api/personas/';
-const endpoint2 = 'http://localhost:8080/apprest/api/cursos/';
+const endpoint = 'http://localhost:8080/apprest/api/';
 let personas = [];
 let cursos = [];
 
@@ -36,6 +35,10 @@ function listener(){
     let selectorSexo = document.getElementById('selectorSexo');
     let inputNombre = document.getElementById('inombre');
 
+    let modal = document.getElementById("modal");
+    let btmodal = document.getElementById("btmodal");
+    let span = document.getElementsByClassName("cerrarmodal")[0];
+    let inombrecurso = document.getElementById("inombrecurso");
     
     selectorSexo.addEventListener('change', function(){
         console.info('Busqueda sexo %o nombre %o', selectorSexo, inputNombre );
@@ -49,6 +52,39 @@ function listener(){
         busqueda(selectorSexo.value, inputNombre.value);
     });
 
+    // When the user clicks the button, open the modal 
+    btmodal.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    inombrecurso.addEventListener('keyup', function(){
+        console.debug('tecla pulsada, valor input ' +  inombrecurso.value );
+        let cursosFiltrados = [];
+        
+        ajax("GET", endpoint + 'cursos/?filtro=' + inombrecurso.value, undefined)
+            .then( data => {
+                console.trace('promesa resolve'); 
+                cursosFiltrados = data;
+                pintarListaCursos
+            ( cursosFiltrados );
+
+            }).catch( error => {
+                console.warn('promesa rejectada');
+                alert(error);
+        });
+    });
 
 }
 
@@ -68,6 +104,7 @@ function pintarListaCursos (arrayCursos ){
     lista.innerHTML = ''; // vaciar html 
     arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
                                                         <img src="img/${c.imagen}" alt="imagen" class="icono">${c.nombre}
+                                                         Precio: ${c.precio}
                                                     </li>`);
 }
 
@@ -80,7 +117,7 @@ function eliminar(indice){
         //personas = personas.filter( el => el.id != personaSeleccionada.id) 
         //pintarListaAlumnos
     (personas);
-        const url = endpoint + personaSeleccionada.id;
+        const url = endpoint + 'personas/' + personaSeleccionada.id;
         ajax("DELETE", url, undefined)
             .then( data => {
                 // conseguir de nuevo todos los alumnos
@@ -230,7 +267,7 @@ function guardar(){
 (personas);
 
     if (persona.id == 0){
-        ajax("POST", endpoint, persona)
+        ajax("POST", endpoint + 'personas/', persona)
         .then( data => { 
             // conseguir de nuevo todos los alumnos
             cargarAlumnos();
@@ -240,10 +277,10 @@ function guardar(){
             alert(error.informacion);
         });
     }else{
-        ajax("PUT", `http://localhost:8080/apprest/api/personas/${persona.id}`, persona)
+        ajax("PUT", `${endpoint}personas/${persona.id}`, persona)
         .then( data => {
             // conseguir de nuevo todos los alumnos
-            ajax("GET", endpoint, undefined)               
+            ajax("GET", endpoint + 'personas/', undefined)               
             .then( data => {
                     console.trace('promesa resolve'); 
                     personas = data;
@@ -293,7 +330,7 @@ function selectAvatar(evento){
 }
 
 function cargarAlumnos(){
-    ajax("GET", endpoint, undefined)
+    ajax("GET", endpoint + 'personas/', undefined)
     .then( data => {
             console.trace('promesa resolve'); 
             personas = data;
@@ -307,7 +344,7 @@ function cargarAlumnos(){
 }
 
 function cargarCursos(){
-    ajax("GET", endpoint2, undefined)
+    ajax("GET", endpoint + 'cursos/', undefined)
     .then( data => {
             console.trace('promesa resolve'); 
             cursos = data;
