@@ -4,6 +4,7 @@
 const endpoint = 'http://localhost:8080/apprest/api/personas/';
 const endpoint2 = 'http://localhost:8080/apprest/api/cursos/';
 let personas = [];
+let cursos = [];
 
 window.addEventListener('load', init() );
 
@@ -66,7 +67,7 @@ function pintarListaCursos (arrayCursos ){
     let lista = document.getElementById('cursos');
     lista.innerHTML = ''; // vaciar html 
     arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
-                                                        <img src="img/${c.imagen}" alt="imagen">${c.nombre}
+                                                        <img src="img/${c.imagen}" alt="imagen" class="icono">${c.nombre}
                                                     </li>`);
 }
 
@@ -310,7 +311,7 @@ function cargarCursos(){
     .then( data => {
             console.trace('promesa resolve'); 
             cursos = data;
-            pintarListaCursos();
+            pintarListaCursos
         ( cursos );
 
     }).catch( error => {

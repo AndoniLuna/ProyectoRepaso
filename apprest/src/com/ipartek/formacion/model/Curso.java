@@ -21,7 +21,7 @@ public class Curso {
 		this.id = 0;
 		this.nombre = "";
 		this.precio = 0.0f;
-		this.imagen = "default.png";
+		this.imagen = "default_curso.png";
 	}
 	
 	public Curso(int id, String nombre, float precio, String imagen) {
