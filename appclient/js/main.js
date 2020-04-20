@@ -2,6 +2,7 @@
 // este array se carga de forma asincrona mediante Ajax
 //const endpoint = 'http://127.0.0.1:5500/appclient/js/data/persona.json';
 const endpoint = 'http://localhost:8080/apprest/api/personas/';
+const endpoint2 = 'http://localhost:8080/apprest/api/cursos/';
 let personas = [];
 
 window.addEventListener('load', init() );
@@ -14,13 +15,15 @@ function init(){
 
     initGallery();
 
-    cargarDatos();
+    cargarAlumnos();
+    cargarCursos();
 
     listener();
 
     console.debug('continua la ejecuion del script de forma sincrona');
     // CUIDADO!!!, es asincrono aqui personas estaria sin datos
-    // pintarLista( personas );
+    // pintarListaAlumnos
+( personas );
 
 }//init
 
@@ -48,7 +51,7 @@ function listener(){
 
 }
 
-function pintarLista( arrayPersonas ){
+function pintarListaAlumnos( arrayPersonas ){
     //seleccionar la lista por id
     let lista = document.getElementById('alumnos');
     lista.innerHTML = ''; // vaciar html 
@@ -59,6 +62,14 @@ function pintarLista( arrayPersonas ){
                                                     </li>`);
 }
 
+function pintarListaCursos (arrayCursos ){
+    let lista = document.getElementById('cursos');
+    lista.innerHTML = ''; // vaciar html 
+    arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
+                                                        <img src="img/${c.imagen}" alt="imagen">${c.nombre}
+                                                    </li>`);
+}
+
 function eliminar(indice){
     let personaSeleccionada = personas[indice];
     console.debug('click eliminar persona %o', personaSeleccionada);
@@ -66,12 +77,13 @@ function eliminar(indice){
     if ( confirm(mensaje) ){
 
         //personas = personas.filter( el => el.id != personaSeleccionada.id) 
-        //pintarLista(personas);
+        //pintarListaAlumnos
+    (personas);
         const url = endpoint + personaSeleccionada.id;
         ajax("DELETE", url, undefined)
             .then( data => {
                 // conseguir de nuevo todos los alumnos
-                cargarDatos();
+                cargarAlumnos();
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -213,13 +225,14 @@ function guardar(){
     console.debug('persona a guardar %o', persona);
 
     //personas.push(persona);
-    //pintarLista(personas);
+    //pintarListaAlumnos
+(personas);
 
     if (persona.id == 0){
         ajax("POST", endpoint, persona)
         .then( data => { 
             // conseguir de nuevo todos los alumnos
-            cargarDatos();
+            cargarAlumnos();
 
         }).catch( error => {
             console.warn('promesa rejectada');
@@ -233,7 +246,8 @@ function guardar(){
             .then( data => {
                     console.trace('promesa resolve'); 
                     personas = data;
-                    pintarLista( personas );
+                    pintarListaAlumnos
+                ( personas );
         
             }).catch( error => {
                     console.warn('promesa rejectada');
@@ -277,12 +291,27 @@ function selectAvatar(evento){
 
 }
 
-function cargarDatos(){
+function cargarAlumnos(){
     ajax("GET", endpoint, undefined)
     .then( data => {
             console.trace('promesa resolve'); 
             personas = data;
-            pintarLista( personas );
+            pintarListaAlumnos
+        ( personas );
+
+    }).catch( error => {
+            console.warn('promesa rejectada');
+            alert(error);
+    });
+}
+
+function cargarCursos(){
+    ajax("GET", endpoint2, undefined)
+    .then( data => {
+            console.trace('promesa resolve'); 
+            cursos = data;
+            pintarListaCursos();
+        ( cursos );
 
     }).catch( error => {
             console.warn('promesa rejectada');
@@ -293,14 +322,18 @@ function cargarDatos(){
 function busqueda(sexo, nombre){
     if ('t' != sexo && nombre){
         let personasFiltradas = personas.filter( el => el.sexo == sexo && el.nombre.toLowerCase().includes(nombre));
-        pintarLista(personasFiltradas);
+        pintarListaAlumnos
+    (personasFiltradas);
     }else if ('t' === sexo && nombre){
         let personasFiltradas = personas.filter(el => el.nombre.toLowerCase().includes(nombre));
-        pintarLista(personasFiltradas);
+        pintarListaAlumnos
+    (personasFiltradas);
     }else if ('t' != sexo && !nombre){
         let personasFiltradas = personas.filter( el => el.sexo == sexo);
-        pintarLista(personasFiltradas);
+        pintarListaAlumnos
+    (personasFiltradas);
     }else if('t' === sexo && !nombre){
-        pintarLista(personas);
+        pintarListaAlumnos
+    (personas);
     }
 }
