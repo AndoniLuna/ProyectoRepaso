@@ -78,12 +78,12 @@ public class PersonaController {
 			try {
 				personaDAO.insert(persona);
 				response = Response.status(Status.CREATED).entity(persona).build();
-				
-			}catch (Exception e) {
+
+			} catch (Exception e) {
 				ResponseBody responseBody = new ResponseBody();
 				responseBody.setInformacion("nombre duplicado");
 				response = Response.status(Status.CONFLICT).entity(responseBody).build();
-			}	
+			}
 
 		} else {
 
@@ -104,7 +104,7 @@ public class PersonaController {
 	public Response update(@PathParam("id") int id, Persona persona) {
 		LOGGER.info("update");
 		Response response = Response.status(Status.NOT_FOUND).entity(persona).build();
-		
+
 		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
 		if (!violations.isEmpty()) {
 			ArrayList<String> errores = new ArrayList<String>();
@@ -112,19 +112,19 @@ public class PersonaController {
 				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
 			}
 			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
-			
-		}else {
-			
+
+		} else {
+
 			try {
 				personaDAO.update(persona);
 				response = Response.status(Status.OK).entity(persona).build();
-			}catch (Exception e) {
+			} catch (Exception e) {
 				ResponseBody responseBody = new ResponseBody();
 				responseBody.setInformacion("nombre duplicado");
 				response = Response.status(Status.CONFLICT).entity(responseBody).build();
-			}	
-			
-		}	
+			}
+
+		}
 
 		return response;
 	}
@@ -136,28 +136,76 @@ public class PersonaController {
 
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 		Persona persona = null;
-		
+
 		try {
 			persona = personaDAO.delete(id);
 			ResponseBody responseBody = new ResponseBody();
 			responseBody.setData(persona);
 			responseBody.setInformacion("persona eliminada");
-			//ejemplo envio hipermedia
+			// ejemplo envio hipermedia
 			responseBody.getHypermedias()
 					.add(new Hipermedia("listado personas", "GET", "http://localhost:8080/apprest/api/personas/"));
 			responseBody.getHypermedias()
 					.add(new Hipermedia("detalle personas", "GET", "http://localhost:8080/apprest/api/personas/{id}"));
 
 			response = Response.status(Status.OK).entity(responseBody).build();
-			
-		}catch (SQLException e) {
+
+		} catch (SQLException e) {
 			response = Response.status(Status.CONFLICT).entity(persona).build();
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			response = Response.status(Status.NOT_FOUND).entity(persona).build();
 		}
 		return response;
 
 	}
 
+	@POST
+	@Path("/{idPersona}/curso/{idCurso}")
+	public Response asignarCurso(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
+		LOGGER.info("asignarCurso idPersona=" + idPersona + " idCurso= " + idCurso);
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ResponseBody responseBody = new ResponseBody();
+
+		try {
+			personaDAO.asignarCurso(idPersona, idCurso);
+			Persona p = personaDAO.getById(idPersona);
+
+			responseBody.setInformacion("curso asigando con exito");
+			responseBody.setData(p);
+			response = Response.status(Status.CREATED).entity(responseBody).build();
+
+		} catch (Exception e) {
+			responseBody.setInformacion(e.getMessage());
+			response = Response.status(Status.NOT_FOUND).entity(responseBody).build();
+		}
+
+		return response;
+
+	}
+
+	@DELETE
+	@Path("/{idPersona}/curso/{idCurso}")
+	public Response eliminarCurso(@PathParam("idPersona") int idPersona, @PathParam("idCurso") int idCurso) {
+		LOGGER.info("eliminarCurso idPersona=" + idPersona + " idCurso= " + idCurso);
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+		ResponseBody responseBody = new ResponseBody();
+
+		try {
+			personaDAO.eliminarCurso(idPersona, idCurso);
+			Persona p = personaDAO.getById(idPersona);
+
+			responseBody.setInformacion("curso eliminado con exito");
+			responseBody.setData(p);
+			response = Response.status(Status.OK).entity(responseBody).build();
+
+		} catch (Exception e) {
+			responseBody.setInformacion(e.getMessage());
+			response = Response.status(Status.NOT_FOUND).entity(responseBody).build();
+		}
+
+		return response;
+
+	}
+	
 }

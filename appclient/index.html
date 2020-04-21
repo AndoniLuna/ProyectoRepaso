@@ -28,6 +28,7 @@
 
         <div class="row">
             <div class="col">
+                <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
                 <ul id="alumnos">
                     <li>Cargando datos....</li>
                 </ul>
@@ -58,12 +59,18 @@
                 <div id="gallery"></div>
                 
                 <input type="button" value="Guardar" onclick="guardar()">
-                <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
                 <input type="button" id="btmodal" value="Comprar Cursos">
 
             </div>
+            <div class="col">
+                <h2>Cursos</h2>
+                <ul id="alumnos_curso">
+                    <li>Cargando datos....</li>
+                </ul>
+            </div>
         </div>
 
+        <!--  Ventana Modal  -->
         <div id="modal" class="modal">
 
             <div class="modal-content">
