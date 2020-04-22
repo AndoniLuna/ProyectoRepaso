@@ -220,7 +220,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			pst.setInt(2, idCurso);
 			LOGGER.info(pst.toString());
 			
-			//eliminamos la persona
+			//agregamos el curso
 			int affetedRows = pst.executeUpdate();	
 			if (affetedRows == 1) {
 				resul = true;
@@ -243,7 +243,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			pst.setInt(2, idCurso);
 			LOGGER.info(pst.toString());
 			
-			//eliminamos la persona
+			//eliminamos el curso
 			int affetedRows = pst.executeUpdate();	
 			if (affetedRows == 1) {
 				resul = true;

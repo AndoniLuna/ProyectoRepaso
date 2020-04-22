@@ -4,6 +4,7 @@
 const endpoint = 'http://localhost:8080/apprest/api/';
 let personas = [];
 let cursos = [];
+let personaSeleccionada = [];
 
 window.addEventListener('load', init() );
 
@@ -117,7 +118,7 @@ function pintarListaCursos (arrayCursos ){
 }
 
 function eliminar(indice){
-    let personaSeleccionada = personas[indice];
+    personaSeleccionada = personas[indice];
     console.debug('click eliminar persona %o', personaSeleccionada);
     const mensaje = `¿Estas seguro que quieres eliminar  a ${personaSeleccionada.nombre} ?`;
     if ( confirm(mensaje) ){
@@ -141,7 +142,7 @@ function eliminar(indice){
 
 function seleccionar(indice, id){
 
-    let  personaSeleccionada = {};
+    personaSeleccionada = {};
 
     if ( id != 0 ){
         //personaSeleccionada = personas[indice];
@@ -378,8 +379,9 @@ function eliminarCurso( idPersona, idCurso ){
         alert('Curso Eliminado');
 
         //FIXME falta quitar curso del formulario, problema Asincronismo
+        //cursos.parentNode.removeChild(cursos);
         cargarAlumnos();
-        seleccionar(idPersona);
+        seleccionar(0, idPersona);
     })
     .catch( error => alert(error));
 
@@ -398,7 +400,7 @@ function asignarCurso( idPersona = 0, idCurso ){
 
         //FIXME falta pintar curso del formulario, problema Asincronismo
         cargarAlumnos();
-        seleccionar(idPersona);
+        seleccionar(0, idPersona);
     })
     .catch( error => alert(error));
 
