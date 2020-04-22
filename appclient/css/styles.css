@@ -115,3 +115,19 @@ img.icono {
     from {top: -300px; opacity: 0}
     to {top: 0; opacity: 1}
 }
+
+/* Iconos */
+
+.fa-trash:hover{
+    color: red;
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;   
+}
+
+.fa-pencil-ruler:hover{
+    color: teal;
+    font-size: 1.4em;
+    transition: 0.5s;
+    cursor: pointer;   
+}
