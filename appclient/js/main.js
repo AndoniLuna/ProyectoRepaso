@@ -190,7 +190,7 @@ function seleccionar(indice, id){
 
                 listaCursosAlumno.innerHTML += `<li>
                                                     ${el.nombre}
-                                                    <i class="fas fa-trash" onclick="eliminarCurso(${personaSeleccionada.id},${el.id})"></i>
+                                                    <i class="fas fa-trash" onclick="eliminarCurso(event, ${personaSeleccionada.id},${el.id})"></i>
                                                 </li>`;
         
             });
@@ -369,7 +369,7 @@ function busqueda(sexo, nombre){
     }
 }
 
-function eliminarCurso( idPersona, idCurso ){
+function eliminarCurso( event, idPersona, idCurso ){
 
     console.debug(`click eliminarCurso idPersona=${idPersona} idCurso=${idCurso}`);
 
@@ -378,8 +378,7 @@ function eliminarCurso( idPersona, idCurso ){
     .then( data => {
         alert('Curso Eliminado');
 
-        //FIXME falta quitar curso del formulario, problema Asincronismo
-        //cursos.parentNode.removeChild(cursos);
+        event.target.parentElement.classList.add('animated', 'bounceOut');
         cargarAlumnos();
         seleccionar(0, idPersona);
     })
@@ -396,9 +395,20 @@ function asignarCurso( idPersona = 0, idCurso ){
     const url = endpoint + 'personas/' + idPersona + "/curso/" + idCurso;
     ajax('POST', url, undefined)
     .then( data => {
-        alert('Curso Asignado');
 
-        //FIXME falta pintar curso del formulario, problema Asincronismo
+        // cerrar modal
+        document.getElementById("modal").style.display = 'none';
+        
+        alert(data.informacion);
+
+        const curso = data.data;
+        // pintar curso al final de la lista        
+        let lista = document.getElementById('alumnos_curso');        
+        lista.innerHTML += `<li class="animated bounceIn">  
+                                ${curso.nombre}
+                                <i class="fas fa-trash" onclick="eliminarCurso(event, ${idPersona},${curso.id})"></i>    
+                            </li>`;
+
         cargarAlumnos();
         seleccionar(0, idPersona);
     })

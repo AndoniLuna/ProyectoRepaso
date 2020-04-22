@@ -17,6 +17,7 @@ public class CursoDAO {
 	private static CursoDAO INSTANCE = null;
 	
 	private static String SQL_GET_ALL   =  "SELECT id, nombre, precio, imagen FROM curso ORDER BY id DESC LIMIT 500; ";
+	private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen FROM curso WHERE id = ?; ";
 	private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
 
 	private CursoDAO() {
@@ -54,6 +55,33 @@ public class CursoDAO {
 
 		return registros;
 		
+	}
+	
+	public Curso getById(int id) throws Exception {
+		Curso registro = null;
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_ID);
+		) {
+
+			pst.setInt(1, id);
+			LOGGER.info(pst.toString());
+			
+			try( ResultSet rs = pst.executeQuery() ){			
+				
+				if( rs.next() ) {					
+					registro = mapper(rs);
+				}else {
+					throw new Exception("Registro no encontrado para id = " + id);
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return registro;
 	}
 	
 	public List<Curso> getAllLikeNombre(String filtro) {
