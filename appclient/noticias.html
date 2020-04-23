@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias</title>
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="container">
+
+        <h1>Canal de distribución de noticias</h1>
+
+        <div class="container-filter">
+            <input type="button" onclick="location.href='http://127.0.0.1:5500/appclient/index.html';" value="Volver a la página principal" />
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <ul id="noticias">
+                    <li>Cargando noticias....</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/ajax.js"></script>
+    <script src="js/noticias.js"></script>
+
+</body>
+</html>
