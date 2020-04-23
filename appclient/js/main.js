@@ -412,6 +412,6 @@ function asignarCurso( idPersona = 0, idCurso ){
         cargarAlumnos();
         seleccionar(0, idPersona);
     })
-    .catch( error => alert(error));
+    .catch( error => alert(error.informacion));
 
 }

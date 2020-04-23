@@ -227,6 +227,9 @@ public class PersonaDAO implements IDAO<Persona> {
 			}else {
 				resul = false;		
 			}
+		} catch (SQLException e) {
+
+			throw new Exception("No se puede crear registro " + e.getMessage() );
 		}
 		
 		return resul;
