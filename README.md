@@ -25,10 +25,26 @@ Este proyecto tiene 2 aplicaciones. Appclient y Apprest.
 También hay que configurar el fichero config.xml
     `db.name = "root";
     db.pass= "root";`
+La ruta al script de la bd es: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/apprest/script2-db.sql)
 En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan información de los errores y correcto funcionamiento de esta.
 
   
   4. Detalle API rest con llamadas:
+  
+  Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
+  
+  Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
+  
+  Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
+  
+  Borrar persona: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{id})
+  
+  Asignar un curso: Metodo POST, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+  
+  Borrar un curso a un alumno: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+  
+  Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
+  
   Este es el aspecto de la aplicación al acceder a ella por primera vez
   ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
   Cuando seleccionemos a un alumno pinchando en el icono de los 2 lapiceros junto a la imagen del alumno
