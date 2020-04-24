@@ -33,19 +33,19 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
   
     - Detalle API rest con llamadas:
   
-  Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
+    Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
   
-  Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
+    Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
   
-  Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
+    Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
   
-  Borrar persona: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{id})
+    Borrar persona: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{id})
   
-  Asignar un curso: Metodo POST, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+    Asignar un curso: Metodo POST, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
   
-  Borrar un curso a un alumno: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+    Borrar un curso a un alumno: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
   
-  Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
+    Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
   
     - Pantallazos mostrando el funcionamiento de la aplicación:
   
