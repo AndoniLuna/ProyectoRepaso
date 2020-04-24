@@ -131,3 +131,7 @@ img.icono {
     transition: 0.5s;
     cursor: pointer;   
 }
+
+#noticias{
+    text-align: center;
+}
