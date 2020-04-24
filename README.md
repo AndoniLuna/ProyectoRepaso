@@ -1,9 +1,11 @@
 # ProyectoRepaso
 Este proyecto tiene 2 aplicaciones. Appclient y Apprest.
 
-## Appclient es la aplicación cliente la cual se encargara mediante llamadas AJAX de llamar al servicio AppRest y mostrar los datos que este devuelva.
+## Appclient
+Es la aplicación cliente la cual se encargara mediante llamadas AJAX de llamar al servicio AppRest y mostrar los datos que este devuelva.
 
-## Apprest es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos y ver la lista de cursos, pero no podremos crear, modificar o eliminar cursos.
+## Apprest
+Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos y ver la lista de cursos, pero no podremos crear, modificar o eliminar cursos.
 
 ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
 
