@@ -45,6 +45,8 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
   
   Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
   
+  5. Pantallazos mostrando el funcionamiento de la aplicación:
+  
   Este es el aspecto de la aplicación al acceder a ella por primera vez
   ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
   Cuando seleccionemos a un alumno pinchando en el icono de los 2 lapiceros junto a la imagen del alumno
