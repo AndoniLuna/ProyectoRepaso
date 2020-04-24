@@ -21,7 +21,12 @@ Este proyecto tiene 2 aplicaciones. Appclient y Apprest.
   
   2. Tecnología usada: Esta aplicación utiliza JAVA y SQL
   
-  3. Configuración: Una vez descargado el proyecto, es necesario acceder a la clase que se encarga de la conexión a la base de datos, esa clase es es ConnectionManager.java y su ruta es: apprest/src/com/ipartek/formacion/model/dao/ Dentro de ella se debe buscar la siguiente linea de código: `DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydb");`y modificarla para que apunte a la base de datos correspondiente. En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan información de los errores y correcto funcionamiento de esta.
+  3. Configuración: Una vez descargado el proyecto, es necesario acceder a la clase que se encarga de la conexión a la base de datos, esa clase es es ConnectionManager.java y su ruta es: apprest/src/com/ipartek/formacion/model/dao/ Dentro de ella se debe buscar la siguiente linea de código: `DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydb");`y modificarla para que apunte a la base de datos correspondiente.
+También hay que configurar el fichero config.xml
+    `db.name = "root";
+    db.pass= "root";`
+En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan información de los errores y correcto funcionamiento de esta.
+
   
   4. Detalle API rest con llamadas:
   Este es el aspecto de la aplicación al acceder a ella por primera vez
