@@ -36,7 +36,7 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
   
         Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
-        El json a enviar: {"id":20,"nombre":"Pepe","avatar":"avatar7.png","sexo":"h","cursos":[]}
+            El json a enviar: {"id":20,"nombre":"Pepe","avatar":"avatar7.png","sexo":"h","cursos":[]}
   
         Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
         El json a enviar: {"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]}
