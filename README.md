@@ -28,6 +28,7 @@ También hay que configurar el fichero config.xml
     `db.name = "root";
     db.pass= "root";`
 La ruta al script de la bd es: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/apprest/script2-db.sql)
+El modelo Entidad Relación de la bd se puede consultar en esta ruta: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Modelo_Entidad_Relacion.PNG)
 En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan información de los errores y correcto funcionamiento de esta.
 
   
@@ -56,7 +57,7 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         El json a enviar:{"informacion":"curso eliminado con exito","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[]}
   
         7. Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
-  
+
 ## Versiones
   ### Tag 1.0 -> Esta es la primera versión estable del proyecto.
   
