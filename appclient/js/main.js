@@ -54,6 +54,8 @@ function listener(){
     });
 
     // 2 filtro de cursos
+    let inombrecurso = document.getElementById("inombrecurso");
+    
     inombrecurso.addEventListener('keyup', function(){
         console.debug('tecla pulsada, valor input ' +  inombrecurso.value );
         let cursosFiltrados = [];
@@ -75,7 +77,6 @@ function listener(){
     let modal = document.getElementById("modal");
     let btmodal = document.getElementById("btmodal");
     let span = document.getElementsByClassName("cerrarmodal")[0];
-    let inombrecurso = document.getElementById("inombrecurso");
 
     // When the user clicks the button, open the modal 
     btmodal.onclick = function() {
