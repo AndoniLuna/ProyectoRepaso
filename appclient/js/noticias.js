@@ -1,9 +1,13 @@
 "use strict";
+// este array se carga de forma asincrona mediante Ajax
 const endpoint = 'http://localhost:8080/apprest/api/noticias';
 let noticias = [];
 
 window.addEventListener('load', init() );
 
+/**
+ * Se ejecuta cuando todo esta cargado
+ */
 function init(){
     console.debug('Document Load and Ready');    
 
@@ -11,8 +15,12 @@ function init(){
 
     console.debug('continua la ejecuion del script de forma sincrona');
 
-}
+}// init
 
+/**
+ * Pintar el listado de Noticias
+ * @param {*} elementos noticias a pintar
+ */
 function pintarListaNoticias (arrayNoticias ){
     let lista = document.getElementById('noticias');
     lista.innerHTML = ''; // vaciar html 
@@ -21,8 +29,11 @@ function pintarListaNoticias (arrayNoticias ){
                                                         <p>Fecha: ${n.fecha}</p>
                                                         <p>${n.contenido}</p>
                                                     </li>`);
-}
+}// pintarNoticias
 
+/**
+ * Obtiene los datos del servicio rest y pinta la lista de Noticias
+ */
 function cargarNoticias(){
     ajax("GET", endpoint, undefined)
     .then( data => {
@@ -34,4 +45,4 @@ function cargarNoticias(){
             console.warn('promesa rejectada');
             alert(error);
     });
-}
+}// cargarNoticias

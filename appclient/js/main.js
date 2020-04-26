@@ -30,18 +30,17 @@ function init(){
 
 /**
  * Inicializamos los listener de index.hml
+ * 1) selector de sexo y busqueda por nombre
+ * 2) filtro de cursos
+ * 3) modal
+ * @see function filtro
  */
 function listener(){
 
+    // 1 Selector de sexo y busqueda por nombre
     let selectorSexo = document.getElementById('selectorSexo');
     let inputNombre = document.getElementById('inombre');
-
-    let modal = document.getElementById("modal");
-    let btmodal = document.getElementById("btmodal");
-    let span = document.getElementsByClassName("cerrarmodal")[0];
-    let inombrecurso = document.getElementById("inombrecurso");
     
-    // Buscador
     selectorSexo.addEventListener('change', function(){
         console.info('Busqueda sexo %o nombre %o', selectorSexo, inputNombre );
     
@@ -54,25 +53,7 @@ function listener(){
         busqueda(selectorSexo.value, inputNombre.value);
     });
 
-    // Modal
-    // When the user clicks the button, open the modal 
-    btmodal.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    // Buscador del Modal
+    // 2 filtro de cursos
     inombrecurso.addEventListener('keyup', function(){
         console.debug('tecla pulsada, valor input ' +  inombrecurso.value );
         let cursosFiltrados = [];
@@ -90,8 +71,35 @@ function listener(){
         });
     });
 
-}
+    // 3 Modal
+    let modal = document.getElementById("modal");
+    let btmodal = document.getElementById("btmodal");
+    let span = document.getElementsByClassName("cerrarmodal")[0];
+    let inombrecurso = document.getElementById("inombrecurso");
 
+    // When the user clicks the button, open the modal 
+    btmodal.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+}// listener
+
+/**
+ * Pintar el listado de Alumnos
+ * @param {*} elementos alumnos a pintar
+ */
 function pintarListaAlumnos( arrayPersonas ){
     //seleccionar la lista por id
     let listaalumnos = document.getElementById('alumnos');
@@ -104,8 +112,12 @@ function pintarListaAlumnos( arrayPersonas ){
                                                         <i class="fas fa-trash" onclick="eliminar(${i},${p.id})"></i>
                                                         <span class="fright" >${p.cursos.length} cursos</span>
                                                     </li>`);
-}
+}// pintarListaAlumnos
 
+/**
+ * Pintar el listado de Cursos
+ * @param {*} elementos cursos a pintar
+ */
 function pintarListaCursos (arrayCursos ){
     let lista = document.getElementById('cursos');
     lista.innerHTML = ''; // vaciar html 
@@ -115,8 +127,12 @@ function pintarListaCursos (arrayCursos ){
                                                         <span>Precio: ${c.precio} €</span>
                                                         <span onclick="asignarCurso( 0, ${c.id})" >[x] Asignar</span>
                                                     </li>`);
-}
+}// PintarListaCursos
 
+/**
+ * Se ejecuta al pulsar el boton de la papelera y llama al servicio rest para DELETE
+ * @param {*} id id del alumno
+ */
 function eliminar(indice){
     personaSeleccionada = personas[indice];
     console.debug('click eliminar persona %o', personaSeleccionada);
@@ -138,8 +154,15 @@ function eliminar(indice){
         });
     }
 
-}
+}// eliminar
 
+/**
+ * 
+ * Se ejecuta al pulsar el boton de editar(al lado de la papelera) o boton 'Nueva Persona' 
+ * Rellena el formulario con los datos de la persona
+ * @param {*} id  id del alumno, si no existe en el array usa personaSeleccionada
+ * @see personaSeleccionada = { "id":0, "nombre": "sin nombre" , "avatar" : "img/avatar7.png", "sexo": "h", "cursos": [] };
+ */
 function seleccionar(indice, id){
 
     personaSeleccionada = {};
@@ -231,8 +254,11 @@ function seleccionar(indice, id){
         }
     }
    
-}
+}// seleccionar
 
+/**
+ * Llama al servicio Rest para hacer un POST ( id == 0) o PUT ( id != 0 )
+ */
 function guardar(){
 
     console.trace('click guardar');
@@ -255,10 +281,7 @@ function guardar(){
 
     console.debug('persona a guardar %o', persona);
 
-    //personas.push(persona);
-    //pintarListaAlumnos
-(personas);
-
+    // CREAR
     if (persona.id == 0){
         ajax("POST", endpoint + 'personas/', persona)
         .then( data => { 
@@ -269,6 +292,7 @@ function guardar(){
             console.warn('promesa rejectada');
             alert(error.informacion);
         });
+    // MODIFICAR
     }else{
         ajax("PUT", `${endpoint}personas/${persona.id}`, persona)
         .then( data => {
@@ -292,7 +316,7 @@ function guardar(){
     }
     
 
-}
+}// guardar
 
 /**
  * Carga todas las imagen de los avatares
@@ -305,8 +329,12 @@ function initGallery(){
                                       data-path="img/avatar${i}.png"
                                       src="img/avatar${i}.png">`;
     }
-}
+}// initGallery
 
+/**
+ * Selecciona el avatar sobre el que se ha hecho el evento click
+ * @param {*} evento 
+ */
 function selectAvatar(evento){
     console.trace('click avatar');
     const avatares = document.querySelectorAll('#gallery img');
@@ -320,8 +348,11 @@ function selectAvatar(evento){
     iAvatar.value = evento.target.dataset.path;
     iAvatar.value = iAvatar.value.slice(4,15);
 
-}
+}// selectAvatar
 
+/**
+ * Obtiene los datos del servicio rest y pinta la lista de Alumnos
+ */
 function cargarAlumnos(){
     ajax("GET", endpoint + 'personas/', undefined)
     .then( data => {
@@ -334,8 +365,11 @@ function cargarAlumnos(){
             console.warn('promesa rejectada');
             alert(error);
     });
-}
+}// cargarAlumnos
 
+/**
+ * Carga todos los cursos
+ */
 function cargarCursos(){
     ajax("GET", endpoint + 'cursos/', undefined)
     .then( data => {
@@ -348,8 +382,11 @@ function cargarCursos(){
             console.warn('promesa rejectada');
             alert(error);
     });
-}
+}// cargarCursos
 
+/**
+ * Filtra las personas cuando se buscan por sexo y nombre
+ */
 function busqueda(sexo, nombre){
     if ('t' != sexo && nombre){
         let personasFiltradas = personas.filter( el => el.sexo == sexo && el.nombre.toLowerCase().includes(nombre));
@@ -367,8 +404,13 @@ function busqueda(sexo, nombre){
         pintarListaAlumnos
     (personas);
     }
-}
+}// busqueda
 
+/**
+ * 
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function eliminarCurso( event, idPersona, idCurso ){
 
     console.debug(`click eliminarCurso idPersona=${idPersona} idCurso=${idCurso}`);
@@ -384,8 +426,13 @@ function eliminarCurso( event, idPersona, idCurso ){
     })
     .catch( error => alert(error));
 
-}
+}// eliminarCurso
 
+/**
+ * 
+ * @param {*} idPersona 
+ * @param {*} idCurso 
+ */
 function asignarCurso( idPersona = 0, idCurso ){
 
     idPersona = (idPersona != 0) ? idPersona : personaSeleccionada.id;
@@ -414,4 +461,4 @@ function asignarCurso( idPersona = 0, idCurso ){
     })
     .catch( error => alert(error.informacion));
 
-}
+}// asignarCurso
