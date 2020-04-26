@@ -25,12 +25,12 @@
 
             </select>
             <input type="search" id="inombre" placeholder="Escribe nombre">
+            <input type="button" id="bnoticias" onclick="location.href='http://127.0.0.1:5500/appclient/noticias.html';" value="Ir a las noticias" />
         </div>
 
         <div class="row">
             <div class="col">
                 <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
-                <input type="button" onclick="location.href='http://127.0.0.1:5500/appclient/noticias.html';" value="Ir a las noticias" />
                 <ul id="alumnos">
                     <li>Cargando datos....</li>
                 </ul>
@@ -43,13 +43,8 @@
                 <br>
                 <input type="text" id="inputAvatar" readonly="readonly" placeholder="url imagen">
                 <br>
-                <!--
-                    <select id="inputSexo">
-                        <option value="t" selected>Todos</option>
-                        <option value="h">Hombre</option>
-                        <option value="m">Mujer</option>
-                    </select>
-                -->
+
+                <div id="gallery"></div>
 
                 <input checked="checked" type="radio" name="inputSexo" id="sexoh" value="h">
                 <label for="sexoh">Hombre
@@ -57,8 +52,6 @@
                 <input type="radio" name="inputSexo" id="sexom" value="m">
                 <label for="sexom">Mujer
                 <br>
-
-                <div id="gallery"></div>
                 
                 <input type="button" value="Guardar" onclick="guardar()">
                 <input type="button" id="btmodal" value="Comprar Cursos">

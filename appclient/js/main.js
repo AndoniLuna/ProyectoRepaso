@@ -288,6 +288,8 @@ function guardar(){
         .then( data => { 
             // conseguir de nuevo todos los alumnos
             cargarAlumnos();
+            // Relleno el formulario con los datos del nuevo alumno
+            seleccionar(0,data.id);
 
         }).catch( error => {
             console.warn('promesa rejectada');
