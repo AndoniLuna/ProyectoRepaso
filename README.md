@@ -36,52 +36,21 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
   
         Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
+        El json a enviar: {"id":20,"nombre":"Pepe","avatar":"avatar7.png","sexo":"h","cursos":[]}
   
         Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
+        El json a enviar: {"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]}
   
         Borrar persona: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{id})
+        El json a enviar: {"informacion":"persona eliminada","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[{"info":"listado personas","method":"GET","url":"http://localhost:8080/apprest/api/personas/"},{"info":"detalle personas","method":"GET","url":"http://localhost:8080/apprest/api/personas/{id}"}]}
   
         Asignar un curso: Metodo POST, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+        El json a enviar: {"informacion":"curso asigando con exito","data":{"id":3,"nombre":"JavaScript","precio":50.0,"imagen":"javascript.png"},"errores":[],"hypermedias":[]}
   
         Borrar un curso a un alumno: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+        El json a enviar:{"informacion":"curso eliminado con exito","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[]}
   
         Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
-  
-    - Pantallazos mostrando el funcionamiento de la aplicación:
-  
-  Este es el aspecto de la aplicación al acceder a ella por primera vez
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
-  Cuando seleccionemos a un alumno pinchando en el icono de los 2 lapiceros junto a la imagen del alumno
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/SeleccionarAlumno.PNG)
-  Al pinchar en el boton **Nueva Persona**, nos autorellenara así los datos del nuevo Alumno a crear
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/NuevaPersona.PNG)
-  Al pinchar en el boton **Guardar**, si ha podido crear al alumno lo añadira a la lista de alumno
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/AltaAlumno.PNG)
-  Si al pinchar en el boton **Guardar** el nombre del nuevo alumno ya existe en la base de datos, recibiremos un mensaje de error y no se creara al alumno
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/AlumnoDuplicado.PNG)
-  Si pinchamos en el boton **Comprar Cursos** se mostrara una lista con todos los cursos y un buscador de cursos
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/ListaCursos.PNG)
-  El buscador funciona por nombre
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/BuscadorCursos.PNG)
-  Si pinchamos en la x de arriba saldremos sin asignar cursos, pero si pinchamos en la x de asignar, nos mostrara el siguiente mensaje
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/AsignarCurso.PNG)
-  Y el alumno tendrá el curso
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/CursoAsignadoCorrectamente.PNG)
-  Si intentamos asignar un curso que el alumno ya tenía, se mostrara un mensaje de error
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/CursoRepetido.PNG)
-  Si pinchamos en el cubo junto al curso, el alumno perdera ese curso
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/CursoEliminado.PNG)
-  Si pinchamos en el cubo junto al alumno nos saldrá un aviso
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/EliminarAlumno.PNG)
-  En caso de Cancelar no pasara nada pero si Aceptamos se borrara al alumno
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
-  Es posible filtrar a los alumnos por sexo
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/BuscadorHombre.PNG)
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/BuscadorMujer.PNG)
-  También podemos filtrar por el nombre del alumno
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/BuscadorPorNombreTodos.PNG)
-  Y podemos filtrar por sexo y nombre a la vez
-  ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/BuscadorHombrePorNombre.PNG)
   
 ## Versiones
   ### Tag 1.0 -> Esta es la primera versión estable del proyecto.
