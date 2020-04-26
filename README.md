@@ -36,18 +36,23 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         Obtener personas: Metodo: GET, url: (http://localhost:8080/apprest/api/personas/)
   
         Insertar persona: Metodo POST, url: (http://localhost:8080/apprest/api/personas/)
-            El json a enviar: {"id":20,"nombre":"Pepe","avatar":"avatar7.png","sexo":"h","cursos":[]}
+        
+        El json a enviar: {"id":20,"nombre":"Pepe","avatar":"avatar7.png","sexo":"h","cursos":[]}
   
         Modificar persona: Metodo PUT, url: (http://localhost:8080/apprest/api/personas/{id})
+        
         El json a enviar: {"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]}
   
         Borrar persona: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{id})
+        
         El json a enviar: {"informacion":"persona eliminada","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[{"info":"listado personas","method":"GET","url":"http://localhost:8080/apprest/api/personas/"},{"info":"detalle personas","method":"GET","url":"http://localhost:8080/apprest/api/personas/{id}"}]}
   
         Asignar un curso: Metodo POST, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+        
         El json a enviar: {"informacion":"curso asigando con exito","data":{"id":3,"nombre":"JavaScript","precio":50.0,"imagen":"javascript.png"},"errores":[],"hypermedias":[]}
   
         Borrar un curso a un alumno: Metodo DELETE, url: (http://localhost:8080/apprest/api/personas/{idPersona}/cursos{idCurso})
+        
         El json a enviar:{"informacion":"curso eliminado con exito","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[]}
   
         Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
