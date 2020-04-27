@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
@@ -41,6 +42,18 @@ public class PersonaDAO implements IDAO<Persona> {
 			"c.imagen  as curso_imagen" + 
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
 			" LEFT JOIN curso c ON pc.id_curso = c.id WHERE p.id = ? ;   ";
+	
+	private static String SQL_GET_BY_NOMBRE = "SELECT " + 
+			"p.id as persona_id, " + 
+			"p.nombre as persona_nombre, " + 
+			"p.avatar as persona_avatar, " + 
+			"p.sexo as persona_sexo, " + 
+			"c.id as curso_id, " + 
+			"c.nombre as curso_nombre, " + 
+			"c.precio as curso_precio, " + 
+			"c.imagen  as curso_imagen" + 
+			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
+			" LEFT JOIN curso c ON pc.id_curso = c.id WHERE p.nombre = ? ;   ";
 	
 	private static String SQL_DELETE = "DELETE FROM persona WHERE id = ?; ";
 	private static String SQL_INSERT = "INSERT INTO persona ( nombre, avatar, sexo) VALUES ( ?, ?, ? ); ";
@@ -119,6 +132,38 @@ public class PersonaDAO implements IDAO<Persona> {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+		}
+		return registro;
+	}
+	
+	public Persona getByNombre(String nombre) throws Exception {
+
+		Persona registro = null;
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_NOMBRE);
+		) {
+
+			pst.setString(1, nombre);
+			LOGGER.info(pst.toString());
+			
+			try( ResultSet rs = pst.executeQuery() ){
+			
+				HashMap<Integer, Persona> hmPersonas = new HashMap<Integer, Persona>();
+				if( rs.next() ) {
+					registro = mapper(rs, hmPersonas);
+					while (rs.next()) {
+						registro = mapper(rs, hmPersonas);
+					}
+					
+				}else {
+					throw new Exception("Registro no encontrado para nombre = " + nombre);
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			LOGGER.log(Level.SEVERE, "Exception de SQL", e);
+			//e.printStackTrace();
 		}
 		return registro;
 	}

@@ -122,6 +122,19 @@ img.icono {
     cursor: pointer;   
 }
 
+.valid{
+    color: green;
+}
+
+.invalid{
+    color: red;
+}
+
+.valid, .invalid{
+    font-size: 14px;
+    font-style: italic;
+}
+
 #gallery img{
     filter: grayscale(100%);
     margin: 10px 0 0 0;
