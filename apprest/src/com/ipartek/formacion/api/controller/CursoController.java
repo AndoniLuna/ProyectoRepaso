@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -46,6 +47,26 @@ public class CursoController {
 		}
 		
 		Response response = Response.status(Status.OK).entity(registros).build();
+		
+		return response;
+	}
+	
+	@GET
+	@Path("/{id: \\d+}")
+	public Response getCursos(@PathParam("id") int id) {
+		
+		LOGGER.info("getCursos del profesor con id: " + id);
+		
+		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
+
+		ArrayList<Curso> registros;
+		try {
+			registros = (ArrayList<Curso>) cursoDAO.getByTeacher(id);
+			response = Response.status(Status.OK).entity(registros).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return response;
 	}

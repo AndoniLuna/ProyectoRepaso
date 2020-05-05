@@ -23,41 +23,49 @@ public class PersonaDAO implements IDAO<Persona> {
 			"p.id as persona_id, " + 
 			"p.nombre as persona_nombre, " + 
 			"p.avatar as persona_avatar, " + 
-			"p.sexo as persona_sexo, " + 
+			"p.sexo as persona_sexo, " +
+			"p.id_rol as persona_rol," +
 			"c.id as curso_id, " + 
 			"c.nombre as curso_nombre, " + 
 			"c.precio as curso_precio, " + 
 			"c.imagen  as curso_imagen" + 
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
-			" LEFT JOIN curso c ON pc.id_curso = c.id LIMIT 500;  ";
+			" LEFT JOIN curso c ON pc.id_curso = c.id" +
+			" LEFT JOIN rol r ON p.id_rol = r.id LIMIT 500;  ";
 	
 	private static String SQL_GET_BY_ID = "SELECT " + 
 			"p.id as persona_id, " + 
 			"p.nombre as persona_nombre, " + 
 			"p.avatar as persona_avatar, " + 
 			"p.sexo as persona_sexo, " + 
+			"p.id_rol as persona_rol," +
 			"c.id as curso_id, " + 
 			"c.nombre as curso_nombre, " + 
 			"c.precio as curso_precio, " + 
 			"c.imagen  as curso_imagen" + 
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
-			" LEFT JOIN curso c ON pc.id_curso = c.id WHERE p.id = ? ;   ";
+			" LEFT JOIN curso c ON pc.id_curso = c.id" +
+			" LEFT JOIN rol r ON p.id_rol = r.id" +
+			" WHERE p.id = ? ;   ";
 	
 	private static String SQL_GET_BY_NOMBRE = "SELECT " + 
 			"p.id as persona_id, " + 
 			"p.nombre as persona_nombre, " + 
 			"p.avatar as persona_avatar, " + 
 			"p.sexo as persona_sexo, " + 
+			"p.id_rol as persona_rol," +
 			"c.id as curso_id, " + 
 			"c.nombre as curso_nombre, " + 
 			"c.precio as curso_precio, " + 
 			"c.imagen  as curso_imagen" + 
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
-			" LEFT JOIN curso c ON pc.id_curso = c.id WHERE p.nombre = ? ;   ";
+			" LEFT JOIN curso c ON pc.id_curso = c.id" +
+			" LEFT JOIN rol r ON p.id_rol = r.id" +
+			" WHERE p.nombre = ? ;   ";
 	
 	private static String SQL_DELETE = "DELETE FROM persona WHERE id = ?; ";
-	private static String SQL_INSERT = "INSERT INTO persona ( nombre, avatar, sexo) VALUES ( ?, ?, ? ); ";
-	private static String SQL_UPDATE = "UPDATE persona SET nombre = ?, avatar = ?,  sexo = ? WHERE id = ?; ";
+	private static String SQL_INSERT = "INSERT INTO persona ( nombre, avatar, sexo, id_rol) VALUES ( ?, ?, ?, ? ); ";
+	private static String SQL_UPDATE = "UPDATE persona SET nombre = ?, avatar = ?,  sexo = ?, id_rol = ? WHERE id = ?; ";
 	
 	private static String SQL_ASIGNAR_CURSO  = "INSERT INTO persona_has_curso (id_persona, id_curso) VALUES ( ?, ?); ";
 	private static String SQL_ELIMINAR_CURSO = "DELETE FROM persona_has_curso WHERE id_persona = ? AND id_curso = ?;  ";
@@ -237,7 +245,8 @@ public class PersonaDAO implements IDAO<Persona> {
 			pst.setString(1, pojo.getNombre() );
 			pst.setString(2, pojo.getAvatar() );
 			pst.setString(3, pojo.getSexo() );
-			pst.setInt(4, pojo.getId() );
+			pst.setInt(4, pojo.getId_rol());
+			pst.setInt(5, pojo.getId() );
 			LOGGER.info(pst.toString());
 			
 			//eliminamos la persona
@@ -316,6 +325,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			p.setNombre( rs.getString("persona_nombre"));
 			p.setAvatar( rs.getString("persona_avatar"));
 			p.setSexo( rs.getString("persona_sexo"));
+			p.setId_rol( rs.getInt("persona_rol"));
 								
 		}
 				

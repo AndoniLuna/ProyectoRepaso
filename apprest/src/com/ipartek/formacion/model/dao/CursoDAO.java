@@ -16,9 +16,10 @@ public class CursoDAO {
 
 	private static CursoDAO INSTANCE = null;
 	
-	private static String SQL_GET_ALL   =  "SELECT id, nombre, precio, imagen FROM curso ORDER BY id DESC LIMIT 500; ";
-	private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen FROM curso WHERE id = ?; ";
-	private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
+	private static String SQL_GET_ALL   =  "SELECT id, nombre, precio, imagen, id_profesor FROM curso ORDER BY id DESC LIMIT 500; ";
+	private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id = ?; ";
+	private static String SQL_GET_BY_TEACHER = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id_profesor = ?";
+	private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
 
 	private CursoDAO() {
 		super();		
@@ -84,6 +85,34 @@ public class CursoDAO {
 		return registro;
 	}
 	
+	public List<Curso> getByTeacher(int id) throws Exception {
+		
+		LOGGER.info("getByTeacher");
+		
+		ArrayList<Curso> registros = new ArrayList<Curso>();
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_GET_BY_TEACHER);
+		) {
+
+			pst.setInt(1, id);
+			LOGGER.info(pst.toString());
+			
+			try( ResultSet rs = pst.executeQuery() ){			
+				
+				while( rs.next() ) {					
+					registros.add( mapper(rs) );
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return registros;
+	}
+	
 	public List<Curso> getAllLikeNombre(String filtro) {
 		
 		LOGGER.info("filtrar");
@@ -117,6 +146,7 @@ public class CursoDAO {
 		c.setNombre( rs.getString("nombre"));
 		c.setPrecio( rs.getFloat("precio"));
 		c.setImagen( rs.getString("imagen"));
+		c.setId_profesor( rs.getInt("id_profesor"));
 		return c;
 	}
 }

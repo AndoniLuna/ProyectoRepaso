@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indice</title>
+    <title>Profesores</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="css/reset.css">
@@ -13,7 +13,7 @@
 <body>
     <main class="container">
 
-        <h1>Listado Alumnos</h1>
+        <h1>Gestión Profesores</h1>
 
         <div class="container-filter">
             <p>Buscador</p>           
@@ -25,14 +25,12 @@
 
             </select>
             <input type="search" id="inombre" placeholder="Escribe nombre">
-            <input type="button" class="derecha" onclick="location.href='http://127.0.0.1:5500/appclient/noticias.html';" value="Ir a las noticias" />
-            <input type="button" class="derecha" onclick="location.href='http://127.0.0.1:5500/appclient/profesores.html';" value="Gestión Profesores" />
+            <input type="button" class="derecha" onclick="location.href='http://127.0.0.1:5500/appclient/index.html';" value="Volver a la página principal" />
         </div>
 
         <div class="row">
             <div class="col">
-                <input type="button" value="Nueva Persona" onclick="seleccionar(0,0)">
-                <ul id="alumnos">
+                <ul id="personas">
                     <li>Cargando datos....</li>
                 </ul>
             </div>
@@ -40,29 +38,31 @@
                 
                 <input type="text" id="inputId" placeholder="id" readonly>
                 <br>
-                <input type="text" id="inputNombre" placeholder="Escribe nombre">
-                <span id="nombreMensaje" class=""></span>
+                <input type="text" id="inputNombre" placeholder="nombre" readonly>
                 <br>
                 <input type="text" id="inputAvatar" readonly="readonly" placeholder="url imagen">
                 <br>
 
-                <div id="gallery"></div>
-
-                <input checked="checked" type="radio" name="inputSexo" id="sexoh" value="h">
+                <input checked="checked" type="radio" name="inputSexo" id="sexoh" value="h" readonly>
                 <label for="sexoh">Hombre
                 <br>
-                <input type="radio" name="inputSexo" id="sexom" value="m">
+                <input type="radio" name="inputSexo" id="sexom" value="m" readonly>
                 <label for="sexom">Mujer
                 <br>
-                <input type="hidden" id="inputRol">
+                <select id="selectorRol">
+
+                    <option value="1" selected>Profesor</option>
+                    <option value="2">Alumno</option>
+    
+                </select>
                 
                 <input type="button" value="Guardar" onclick="guardar()">
-                <input type="button" id="btmodal" value="Comprar Cursos">
+                <input type="button" id="btmodal" value="Asignar Cursos">
 
             </div>
             <div class="col">
-                <h2>Cursos</h2>
-                <ul id="alumnos_curso">
+                <h2>Cursos impartidos</h2>
+                <ul id="profesores_curso">
                     <li>Cargando datos....</li>
                 </ul>
             </div>
@@ -95,7 +95,7 @@
     </main>
 
     <script src="js/ajax.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/profesores.js"></script>
 
 </body>
 </html>

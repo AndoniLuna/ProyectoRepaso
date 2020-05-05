@@ -20,6 +20,8 @@ public class Persona {
 	@Pattern(regexp = "(\\W|^)(h|m)(\\W|$)" )
 	private String sexo;
 	
+	private int id_rol;
+	
 	private ArrayList<Curso> cursos;
 	
 	public Persona() {
@@ -29,14 +31,16 @@ public class Persona {
 		this.avatar = "avatar1.png";
 		this.sexo = "m";
 		this.cursos = new ArrayList<Curso>();
+		this.id_rol = 2;
 	}
 
-	public Persona(int id, String nombre, String avatar, String sexo) {		
+	public Persona(int id, String nombre, String avatar, String sexo, int id_rol) {		
 		this();
 		this.id = id;
 		this.nombre = nombre;
 		this.avatar = avatar;
 		this.sexo = sexo;
+		this.id_rol = id_rol;
 	}
 
 	public int getId() {
@@ -71,6 +75,14 @@ public class Persona {
 		this.sexo = sexo;
 	}
 
+	public int getId_rol() {
+		return id_rol;
+	}
+
+	public void setId_rol(int id_rol) {
+		this.id_rol = id_rol;
+	}
+
 	public ArrayList<Curso> getCursos() {
 		return cursos;
 	}
@@ -81,8 +93,8 @@ public class Persona {
 
 	@Override
 	public String toString() {
-		return "Persona [id=" + id + ", nombre=" + nombre + ", avatar=" + avatar + ", sexo=" + sexo + ", cursos="
-				+ cursos + "]";
+		return "Persona [id=" + id + ", nombre=" + nombre + ", avatar=" + avatar + ", sexo=" + sexo + ", id_rol="
+				+ id_rol + ", cursos=" + cursos + "]";
 	}
 	
 }

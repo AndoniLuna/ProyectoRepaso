@@ -15,6 +15,9 @@ public class Curso {
 	
 	@NotEmpty
 	private String imagen;
+	
+	@NotEmpty
+	private int id_profesor;
 
 	public Curso() {
 		super();
@@ -22,14 +25,16 @@ public class Curso {
 		this.nombre = "";
 		this.precio = 0.0f;
 		this.imagen = "default_curso.png";
+		this.id_profesor = 0;
 	}
 	
-	public Curso(int id, String nombre, float precio, String imagen) {
+	public Curso(int id, String nombre, float precio, String imagen, int id_profesor) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.precio = precio;
 		this.imagen = imagen;
+		this.id_profesor = id_profesor;
 	}
 
 	public int getId() {
@@ -64,9 +69,18 @@ public class Curso {
 		this.imagen = imagen;
 	}
 
+	public int getId_profesor() {
+		return id_profesor;
+	}
+
+	public void setId_profesor(int id_profesor) {
+		this.id_profesor = id_profesor;
+	}
+
 	@Override
 	public String toString() {
-		return "Curso [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", imagen=" + imagen + "]";
+		return "Curso [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", imagen=" + imagen + ", id_profesor="
+				+ id_profesor + "]";
 	}
 	
 }

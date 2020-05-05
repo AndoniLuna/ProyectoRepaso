@@ -23,13 +23,11 @@ function init(){
 
     console.debug('continua la ejecuion del script de forma sincrona');
     // CUIDADO!!!, es asincrono aqui personas estaria sin datos
-    // pintarListaAlumnos
-( personas );
 
 }//init
 
 /**
- * Inicializamos los listener de index.hml
+ * Inicializamos los listener de index.html
  * 1) selector de sexo y busqueda por nombre
  * 2) filtro de cursos
  * 3) modal
@@ -196,19 +194,19 @@ function seleccionar(indice, id){
     personaSeleccionada = {};
 
     if ( id != 0 ){
-        //personaSeleccionada = personas[indice];
         const promesa = ajax("GET", `http://localhost:8080/apprest/api/personas/${id}`, undefined);
         promesa
         .then( data => {
             console.trace('promesa resolve'); 
             personaSeleccionada = data;
-            console.debug('click guardar persona %o', personaSeleccionada);
+            console.debug('click seleccionar persona %o', personaSeleccionada);
    
             //rellernar formulario
             document.getElementById('inputId').value = personaSeleccionada.id;
             document.getElementById('inputNombre').value = personaSeleccionada.nombre;
             document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
             document.getElementsByName('inputSexo').value = personaSeleccionada.sexo;
+            document.getElementById('inputRol').value = personaSeleccionada.id_rol;
 
             //seleccionar Avatar
             const avatares = document.querySelectorAll('#gallery img');
@@ -251,12 +249,13 @@ function seleccionar(indice, id){
             alert(error);
         });
     }else{
-        personaSeleccionada = { "id":0, "nombre": "sin nombre" , "avatar" : "avatar7.png", "sexo": "h", "cursos": [] };
+        personaSeleccionada = { "id":0, "nombre": "sin nombre" , "avatar" : "avatar7.png", "sexo": "h", "cursos": [], "rol": "2" };
         //rellernar formulario
         document.getElementById('inputId').value = personaSeleccionada.id;
         document.getElementById('inputNombre').value = personaSeleccionada.nombre;
         document.getElementById('inputAvatar').value = personaSeleccionada.avatar;
         document.getElementsByName('inputSexo').value = personaSeleccionada.sexo;
+        document.getElementById('inputRol').value = personaSeleccionada.id_rol;
 
         //seleccionar Avatar
         const avatares = document.querySelectorAll('#gallery img');
@@ -293,18 +292,18 @@ function guardar(){
     let id = document.getElementById('inputId').value;
     let nombre = document.getElementById('inputNombre').value;
     const avatar = document.getElementById('inputAvatar').value;
-    //const sexo = document.getElementById('inputSexo').value;
-    //const sexo = document.getElementsByName('inputSexo').value;
     let sexo = document.getElementById('sexoh').value;
     if (document.getElementById('sexom').checked){
         sexo = document.getElementById('sexom').value;
     }
+    let rol = document.getElementById('inputRol').value;
 
     let persona = {
         "id" : parseInt(id),
         "nombre" : nombre,
         "avatar" : avatar,
-        "sexo"   : sexo
+        "sexo"   : sexo,
+        "id_rol" : rol
     };
 
     console.debug('persona a guardar %o', persona);
