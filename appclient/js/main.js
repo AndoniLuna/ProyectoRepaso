@@ -435,7 +435,7 @@ function busqueda(sexo, nombre){
 }// busqueda
 
 /**
- * 
+ * Elimina un curso que la Persona tuviese asignado
  * @param {*} idPersona 
  * @param {*} idCurso 
  */
@@ -457,7 +457,7 @@ function eliminarCurso( event, idPersona, idCurso ){
 }// eliminarCurso
 
 /**
- * 
+ * Asigna un curso a la Persona
  * @param {*} idPersona 
  * @param {*} idCurso 
  */

@@ -35,20 +35,27 @@ function init(){
  */
 function listener(){
 
-    // 1 Selector de sexo y busqueda por nombre
+    // 1 Selector de sexo, rol y busqueda por nombre
     let selectorSexo = document.getElementById('selectorSexo');
+    let busquedaRol = document.getElementById('busquedaRol');
     let inputNombre = document.getElementById('inombre');
     
     selectorSexo.addEventListener('change', function(){
-        console.info('Busqueda sexo %o nombre %o', selectorSexo, inputNombre );
+        console.info('Busqueda sexo %o rol %o nombre %o', selectorSexo, busquedaRol, inputNombre );
     
-        busqueda(selectorSexo.value, inputNombre.value);
+        busqueda(selectorSexo.value, busquedaRol.value, inputNombre.value);
+    });
+
+    busquedaRol.addEventListener('change', function(){
+        console.info('Busqueda rol %o sexo %o nombre %o', busquedaRol, selectorSexo, inputNombre );
+
+        busqueda(selectorSexo.value, busquedaRol.value, inputNombre.value);
     });
 
     inputNombre.addEventListener('keyup', function(){
         console.debug('tecla pulsada, valor input ' +  busqueda );
         
-        busqueda(selectorSexo.value, inputNombre.value);
+        busqueda(selectorSexo.value, busquedaRol.value, inputNombre.value);
     });
 
     // 2 filtro de cursos
@@ -148,11 +155,29 @@ function pintarListaPersonas( arrayPersonas ){
 function pintarListaCursos (arrayCursos ){
     let lista = document.getElementById('cursos');
     lista.innerHTML = ''; // vaciar html 
-    arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
+    /*arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
                                                         <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
                                                         <h3>${c.nombre}</h3>
+                                                        <span>Código profesor: ${c.id_profesor} (Si es 0 es que no tiene profesor)</span>
                                                         <span onclick="asignarCurso( -1, ${c.id})" >[x] Asignar</span>
-                                                    </li>`);
+                                                    </li>`);*/
+    for (let i = 0; i< arrayCursos.length; i++){
+        let c = arrayCursos[i];
+        if (c.id_profesor != 0){
+            lista.innerHTML += `<li>
+                                    <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
+                                    <h3>${c.nombre}</h3>
+                                    <span>Profesor: ${c.id_profesor}</span>
+                                </li>`;
+        }else{
+            lista.innerHTML += `<li>
+                                    <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
+                                    <h3>${c.nombre}</h3>
+                                    <span>No tiene Profesor</span>
+                                    <span onclick="asignarCurso( -1, ${c.id})" >[x] Asignar</span>
+                                </li>`;
+        }
+    }
 }// PintarListaCursos
 
 /**
@@ -309,19 +334,31 @@ function cargarCursos(){
 }// cargarCursos
 
 /**
- * Filtra las personas cuando se buscan por sexo y nombre
+ * Filtra las personas cuando se buscan por sexo, rol y/o nombre
  */
-function busqueda(sexo, nombre){
-    if ('t' != sexo && nombre){
+function busqueda(sexo, rol, nombre){
+    if (sexo != 't' && rol != 't' && nombre){
+        let personasFiltradas = personas.filter( el => el.sexo == sexo && el.id_rol == rol && el.nombre.toLowerCase().includes(nombre));
+        pintarListaPersonas(personasFiltradas);
+    }else if(sexo !='t' && rol === 't' && nombre){
         let personasFiltradas = personas.filter( el => el.sexo == sexo && el.nombre.toLowerCase().includes(nombre));
         pintarListaPersonas(personasFiltradas);
-    }else if ('t' === sexo && nombre){
-        let personasFiltradas = personas.filter(el => el.nombre.toLowerCase().includes(nombre));
+    }else if (sexo != 't' && rol != 't' && !nombre){
+        let personasFiltradas = personas.filter( el => el.sexo == sexo && el.id_rol == rol);
         pintarListaPersonas(personasFiltradas);
-    }else if ('t' != sexo && !nombre){
+    }else if (sexo != 't' && rol === 't' && !nombre){
         let personasFiltradas = personas.filter( el => el.sexo == sexo);
         pintarListaPersonas(personasFiltradas);
-    }else if('t' === sexo && !nombre){
+    }else if (sexo === 't' && rol != 't' && nombre){
+        let personasFiltradas = personas.filter(el => el.id_rol == rol && el.nombre.toLowerCase().includes(nombre));
+        pintarListaPersonas(personasFiltradas);
+    }else if(sexo === 't' && rol === 't' && nombre){
+        let personasFiltradas = personas.filter(el => el.nombre.toLowerCase().includes(nombre));
+        pintarListaPersonas(personasFiltradas);
+    }else if(sexo === 't' && rol != 't' && !nombre){
+        let personasFiltradas = personas.filter(el => el.id_rol == rol);
+        pintarListaPersonas(personasFiltradas);
+    }else if(sexo === 't' && rol === 't' && !nombre){
         pintarListaPersonas(personas);
     }
 }// busqueda
@@ -356,7 +393,11 @@ function asignarCurso( idPersona, idCurso ){
         
         alert(data.informacion);
 
+        // Mantengo la persona seleccionada
         seleccionar(0, personaSeleccionada.id);
+
+        // Tengo que recargar los cursos para saber cuales estan asignados
+        cargarCursos();
     })
     .catch( error => alert(error.informacion));
 

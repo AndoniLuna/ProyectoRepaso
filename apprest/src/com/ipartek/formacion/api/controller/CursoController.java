@@ -78,22 +78,41 @@ public class CursoController {
 		ResponseBody responseBody = new ResponseBody();
 
 		try {
-			cursoDAO.update(curso);
-			Curso c = cursoDAO.getById(id);
-			
-			if (c.getId_profesor() != 0) {
-				responseBody.setInformacion("curso asigando con exito");
+			Curso curso2 = cursoDAO.getById(id);
+
+			// Si el curso ya tiene profesor y quiero asignarle otro, mandare un mensaje de
+			// error
+			// a no ser que el id_profesor sea 0, lo que significa que se eliminara al
+			// profesor del curso
+			if (curso.getId_profesor() != 0 && (curso2.getId_profesor() != 0)) {
+
+				responseBody.setInformacion("Este curso ya esta asignado a un profesor");
+				response = Response.status(Status.CONFLICT).entity(responseBody).build();
+
 			} else {
-				responseBody.setInformacion("curso desasigando con exito");
+
+				try {
+					cursoDAO.update(curso);
+					Curso c = cursoDAO.getById(id);
+
+					if (c.getId_profesor() != 0) {
+						responseBody.setInformacion("curso asigando con exito");
+					} else {
+						responseBody.setInformacion("curso desasigando con exito");
+					}
+
+					responseBody.setData(c);
+					response = Response.status(Status.OK).entity(responseBody).build();
+				} catch (Exception e) {
+					responseBody.setInformacion("error en la modificacion del curso");
+					response = Response.status(Status.CONFLICT).entity(responseBody).build();
+				}
+
 			}
-			
-			responseBody.setData(c);
-			response = Response.status(Status.OK).entity(responseBody).build();
-		} catch (Exception e) {
-			responseBody.setInformacion("error en la modificacion del curso");
+		} catch (Exception e1) {
+			responseBody.setInformacion("error al comprobar si el curso ya tiene un profesor asignado");
 			response = Response.status(Status.CONFLICT).entity(responseBody).build();
 		}
-
 		return response;
 	}
 
