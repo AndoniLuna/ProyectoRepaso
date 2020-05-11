@@ -20,6 +20,8 @@ public class CursoDAO {
 	private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id = ?; ";
 	private static String SQL_GET_BY_TEACHER = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id_profesor = ?";
 	private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
+	
+	private static String SQL_UPDATE_TEACHER = "UPDATE curso SET id_profesor = ? WHERE id = ?; ";
 
 	private CursoDAO() {
 		super();		
@@ -138,6 +140,29 @@ public class CursoDAO {
 		}
 
 		return registros;
+	}
+	
+	public Curso update(Curso pojo) throws Exception, SQLException {
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(SQL_UPDATE_TEACHER);
+		) {
+
+			pst.setInt(1, pojo.getId_profesor() );
+			pst.setInt(2, pojo.getId() );
+			LOGGER.info(pst.toString());
+			
+			//modificamos el profesor del curso
+			int affetedRows = pst.executeUpdate();	
+			if (affetedRows != 1) {				
+				throw new Exception("No se puede modificar registro " + pojo);
+			}
+			
+		} catch (SQLException e) {
+
+			throw new Exception("No se puede modificar registro " + e.getMessage() );
+		}
+
+		return pojo;
 	}
 	
 	private Curso mapper( ResultSet rs ) throws SQLException {

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -27,36 +28,35 @@ public class CursoController {
 
 	@Context
 	private ServletContext context;
-	
+
 	public CursoController() {
 		super();
 	}
-	
+
 	@GET
-	public Response getAll( @QueryParam("filtro") String filtro ) {
-		LOGGER.info("getAll " + filtro);		
-		ArrayList<Curso> registros = new ArrayList<Curso>(); 
-		
-		
-		if ( filtro != null && !"".equals(filtro.trim())) {
+	public Response getAll(@QueryParam("filtro") String filtro) {
+		LOGGER.info("getAll " + filtro);
+		ArrayList<Curso> registros = new ArrayList<Curso>();
+
+		if (filtro != null && !"".equals(filtro.trim())) {
 			registros = (ArrayList<Curso>) cursoDAO.getAllLikeNombre(filtro);
-			
-		}else {
-			registros = (ArrayList<Curso>) cursoDAO.getAll();	
-			
+
+		} else {
+			registros = (ArrayList<Curso>) cursoDAO.getAll();
+
 		}
-		
+
 		Response response = Response.status(Status.OK).entity(registros).build();
-		
+
 		return response;
 	}
-	
+
 	@GET
 	@Path("/{id: \\d+}")
 	public Response getCursos(@PathParam("id") int id) {
-		
+
 		LOGGER.info("getCursos del profesor con id: " + id);
-		
+
 		Response response = Response.status(Status.INTERNAL_SERVER_ERROR).entity(null).build();
 
 		ArrayList<Curso> registros;
@@ -66,9 +66,35 @@ public class CursoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return response;
 	}
-	
+
+	@PUT
+	@Path("/{id: \\d+}")
+	public Response update(@PathParam("id") int id, Curso curso) {
+		LOGGER.info("update");
+		Response response = Response.status(Status.NOT_FOUND).entity(curso).build();
+		ResponseBody responseBody = new ResponseBody();
+
+		try {
+			cursoDAO.update(curso);
+			Curso c = cursoDAO.getById(id);
+			
+			if (c.getId_profesor() != 0) {
+				responseBody.setInformacion("curso asigando con exito");
+			} else {
+				responseBody.setInformacion("curso desasigando con exito");
+			}
+			
+			responseBody.setData(c);
+			response = Response.status(Status.OK).entity(responseBody).build();
+		} catch (Exception e) {
+			responseBody.setInformacion("error en la modificacion del curso");
+			response = Response.status(Status.CONFLICT).entity(responseBody).build();
+		}
+
+		return response;
+	}
+
 }

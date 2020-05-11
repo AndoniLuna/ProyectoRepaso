@@ -5,7 +5,7 @@ const endpoint = 'http://localhost:8080/apprest/api/';
 let personas = [];
 let cursos = [];
 let personaSeleccionada = [];
-let cursosAsignados = [];
+let cursoAsignado = [];
 
 window.addEventListener('load', init() );
 
@@ -78,7 +78,11 @@ function listener(){
 
     // When the user clicks the button, open the modal 
     btmodal.onclick = function() {
-        modal.style.display = "block";
+        if (!personaSeleccionada.id_rol || personaSeleccionada.id_rol != 1) {
+            alert('Antes de asignar cursos, debe seleccionar a un profesor');
+        } else {
+            modal.style.display = "block";
+        }
     }
 
     // When the user clicks on <span> (x), close the modal
@@ -147,7 +151,7 @@ function pintarListaCursos (arrayCursos ){
     arrayCursos.forEach( (c,i) => lista.innerHTML += `<li>
                                                         <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
                                                         <h3>${c.nombre}</h3>
-                                                        <span onclick="asignarCurso( 0, ${c.id})" >[x] Asignar</span>
+                                                        <span onclick="asignarCurso( -1, ${c.id})" >[x] Asignar</span>
                                                     </li>`);
 }// PintarListaCursos
 
@@ -198,11 +202,11 @@ function seleccionar(indice, id){
         promesa
         .then( data => {
             console.trace('promesa resolve'); 
-            cursosAsignados = data;
-            cursosAsignados.forEach( el => {
+            cursoAsignado = data;
+            cursoAsignado.forEach( el => {
                 listaCursosProfesor.innerHTML += `<li>
                                                     ${el.nombre}
-                                                    <i class="fas fa-trash" onclick="eliminarCurso(event, ${cursosAsignados.id},${el.id})"></i>
+                                                    <i class="fas fa-trash" onclick="asignarCurso(0, ${el.id})"></i>
                                                 </li>`;
             });
         }).catch( error => {
@@ -249,9 +253,12 @@ function guardar(){
             // conseguir de nuevo todos los alumnos
             ajax("GET", endpoint + 'personas/', undefined)               
             .then( data => {
-                console.trace('promesa resolve'); 
+                console.trace('promesa resolve');
+                alert('Rol cambiado'); 
                 personas = data;
                 pintarListaPersonas( personas );
+                // Mantenemos a la persona seleccionada
+                seleccionar(0, persona.id);
     
             }).catch( error => {
                 console.warn('promesa rejectada');
@@ -318,3 +325,39 @@ function busqueda(sexo, nombre){
         pintarListaPersonas(personas);
     }
 }// busqueda
+
+/**
+ * Función que envia el id de la Persona para asignarla un curso donde será el profesor
+ * @param {*} idPersona
+ * @param {*} idCurso
+ */
+function asignarCurso( idPersona, idCurso ){
+
+    //idPersona = (idPersona != 0) ? idPersona : personaSeleccionada.id;
+    if (idPersona == -1) {
+        idPersona = personaSeleccionada.id;
+    }
+
+    let curso = {
+        "id" : parseInt(idCurso),
+        "id_profesor" : parseInt(idPersona)
+    };
+
+    console.debug('curso a guardar %o', curso);
+
+    console.debug(`click asignarCurso idProfesor=${idPersona} idCurso=${idCurso}`);
+
+    const url = endpoint + 'cursos/' + idCurso;
+    ajax('PUT', url, curso)
+    .then( data => {
+
+        // cerrar modal
+        document.getElementById("modal").style.display = 'none';
+        
+        alert(data.informacion);
+
+        seleccionar(0, personaSeleccionada.id);
+    })
+    .catch( error => alert(error.informacion));
+
+}// asignarCurso

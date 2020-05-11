@@ -330,8 +330,7 @@ function guardar(){
             .then( data => {
                     console.trace('promesa resolve'); 
                     personas = data;
-                    pintarListaAlumnos
-                ( personas );
+                    pintarListaAlumnos( personas );
         
             }).catch( error => {
                     console.warn('promesa rejectada');
