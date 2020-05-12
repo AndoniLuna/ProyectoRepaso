@@ -20,6 +20,7 @@ public class Persona {
 	@Pattern(regexp = "(\\W|^)(h|m)(\\W|$)" )
 	private String sexo;
 	
+	@NotEmpty
 	private int id_rol;
 	
 	private ArrayList<Curso> cursos;

@@ -18,6 +18,8 @@ public class Curso {
 	
 	@NotEmpty
 	private int id_profesor;
+	
+	private Persona profesor;
 
 	public Curso() {
 		super();
@@ -26,6 +28,7 @@ public class Curso {
 		this.precio = 0.0f;
 		this.imagen = "default_curso.png";
 		this.id_profesor = 0;
+		this.profesor = new Persona();
 	}
 	
 	public Curso(int id, String nombre, float precio, String imagen, int id_profesor) {
@@ -77,10 +80,18 @@ public class Curso {
 		this.id_profesor = id_profesor;
 	}
 
+	public Persona getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(Persona profesor) {
+		this.profesor = profesor;
+	}
+
 	@Override
 	public String toString() {
 		return "Curso [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", imagen=" + imagen + ", id_profesor="
-				+ id_profesor + "]";
+				+ id_profesor + ", profesor=" + profesor + "]";
 	}
 	
 }

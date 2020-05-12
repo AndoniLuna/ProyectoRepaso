@@ -167,7 +167,7 @@ function pintarListaCursos (arrayCursos ){
             lista.innerHTML += `<li>
                                     <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
                                     <h3>${c.nombre}</h3>
-                                    <span>Profesor: ${c.id_profesor}</span>
+                                    <span>Profesor: ${c.profesor.nombre}</span>
                                 </li>`;
         }else{
             lista.innerHTML += `<li>

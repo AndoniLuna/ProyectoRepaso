@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ipartek.formacion.model.Curso;
+import com.ipartek.formacion.model.Persona;
 
 public class CursoDAO {
 	
@@ -16,10 +17,66 @@ public class CursoDAO {
 
 	private static CursoDAO INSTANCE = null;
 	
-	private static String SQL_GET_ALL   =  "SELECT id, nombre, precio, imagen, id_profesor FROM curso ORDER BY id DESC LIMIT 500; ";
-	private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id = ?; ";
-	private static String SQL_GET_BY_TEACHER = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id_profesor = ?";
-	private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
+	//private static String SQL_GET_ALL   =  "SELECT id, nombre, precio, imagen, id_profesor FROM curso ORDER BY id DESC LIMIT 500; ";
+	private static String SQL_GET_ALL   =  "SELECT " +
+			"c.id as curso_id, " +
+			"c.nombre as curso_nombre, " +
+			"c.precio as curso_precio, " +
+			"c.imagen as curso_imagen, " +
+			"c.id_profesor as curso_id_profesor, " +
+			"p.id as persona_id, " +
+			"p.nombre as persona_nombre, " +
+			"p.avatar as persona_avatar, " +
+			"p.sexo as persona_sexo, " +
+			"p.id_rol as persona_rol " +
+			"FROM curso c " + 
+			"LEFT JOIN persona p ON c.id_profesor = p.id " +
+			"ORDER BY c.id DESC LIMIT 500; ";
+	//private static String SQL_GET_BY_ID   = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id = ?; ";
+	private static String SQL_GET_BY_ID   =  "SELECT " +
+			"c.id as curso_id, " +
+			"c.nombre as curso_nombre, " +
+			"c.precio as curso_precio, " +
+			"c.imagen as curso_imagen, " +
+			"c.id_profesor as curso_id_profesor, " +
+			"p.id as persona_id, " +
+			"p.nombre as persona_nombre, " +
+			"p.avatar as persona_avatar, " +
+			"p.sexo as persona_sexo, " +
+			"p.id_rol as persona_rol " +
+			"FROM curso c " + 
+			"LEFT JOIN persona p ON c.id_profesor = p.id " +
+			"WHERE c.id = ?; ";
+	//private static String SQL_GET_BY_TEACHER = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE id_profesor = ?";
+	private static String SQL_GET_BY_TEACHER   =  "SELECT " +
+			"c.id as curso_id, " +
+			"c.nombre as curso_nombre, " +
+			"c.precio as curso_precio, " +
+			"c.imagen as curso_imagen, " +
+			"c.id_profesor as curso_id_profesor, " +
+			"p.id as persona_id, " +
+			"p.nombre as persona_nombre, " +
+			"p.avatar as persona_avatar, " +
+			"p.sexo as persona_sexo, " +
+			"p.id_rol as persona_rol " +
+			"FROM curso c " + 
+			"LEFT JOIN persona p ON c.id_profesor = p.id " +
+			"WHERE c.id_profesor = ?; ";
+	//private static String SQL_GET_FILTRO = "SELECT id, nombre, precio, imagen, id_profesor FROM curso WHERE nombre LIKE ? ORDER BY id DESC; ";
+	private static String SQL_GET_FILTRO = "SELECT " +
+			"c.id as curso_id, " +
+			"c.nombre as curso_nombre, " +
+			"c.precio as curso_precio, " +
+			"c.imagen as curso_imagen, " +
+			"c.id_profesor as curso_id_profesor, " +
+			"p.id as persona_id, " +
+			"p.nombre as persona_nombre, " +
+			"p.avatar as persona_avatar, " +
+			"p.sexo as persona_sexo, " +
+			"p.id_rol as persona_rol " +
+			"FROM curso c " + 
+			"LEFT JOIN persona p ON c.id_profesor = p.id " +
+			"WHERE c.nombre LIKE ? ORDER BY c.id DESC; ";
 	
 	private static String SQL_UPDATE_TEACHER = "UPDATE curso SET id_profesor = ? WHERE id = ?; ";
 
@@ -167,11 +224,24 @@ public class CursoDAO {
 	
 	private Curso mapper( ResultSet rs ) throws SQLException {
 		Curso c = new Curso();
-		c.setId( rs.getInt("id") );
-		c.setNombre( rs.getString("nombre"));
-		c.setPrecio( rs.getFloat("precio"));
-		c.setImagen( rs.getString("imagen"));
-		c.setId_profesor( rs.getInt("id_profesor"));
+		c.setId( rs.getInt("curso_id") );
+		c.setNombre( rs.getString("curso_nombre"));
+		c.setPrecio( rs.getFloat("curso_precio"));
+		c.setImagen( rs.getString("curso_imagen"));
+		c.setId_profesor( rs.getInt("curso_id_profesor"));
+		
+		// se añade la Persona profesor
+		int idProfesor = rs.getInt("curso_id_profesor");
+				if ( idProfesor != 0) {
+					Persona p = new Persona();
+					p.setId(idProfesor);
+					p.setNombre(rs.getString("persona_nombre"));
+					p.setAvatar( rs.getString("persona_avatar"));
+					p.setSexo( rs.getString("persona_sexo"));
+					p.setId_rol( rs.getInt("persona_rol"));			
+					c.setProfesor(p);
+				}	
+		
 		return c;
 	}
 }
