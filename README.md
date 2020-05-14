@@ -61,7 +61,9 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         
         8. Obtener noticias: Metodo: GET, url: (http://localhost:8080/apprest/api/noticias/)
         
-        9. Cambiar un rol:
+        9. Cambiar un rol: Metodo: PUT, url: (http://localhost:8080/apprest/api/personas/1)
+        
+        El json a enviar:
 
 ## Versiones
   ### Tag 1.0 -> Esta es la primera versión estable del proyecto.
