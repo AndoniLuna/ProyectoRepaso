@@ -5,7 +5,8 @@ Este proyecto tiene 2 aplicaciones. Appclient y Apprest.
 Es la aplicación cliente la cual se encargara mediante llamadas AJAX de llamar al servicio AppRest y mostrar los datos que este devuelva.
 
 ## Apprest
-Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos y ver la lista de cursos, pero no podremos crear, modificar o eliminar cursos.
+Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos, ver la lista de cursos y asignar/desasignar profesores a los cursos, pero no podremos crear, modificar o eliminar cursos.
+También nos permitira ver las ultimas noticias.
 
 ![Ups, la imagen no se ha cargado correctamente](https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Inicio.PNG)
 
@@ -19,7 +20,7 @@ Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir
   
 - **Apprest**
 
-    - Introducción: Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos y ver la lista de cursos, pero no podremos crear, modificar o eliminar cursos.
+    - Introducción: Es un servicio Rest que nos permitira ver la lista de alumnos, modificar/añadir y eliminar alumnos. También nos permitira asignar o designar cursos a los alumnos, asignar/desasignar profesores a los cursos y ver la lista de cursos, pero no podremos crear, modificar o eliminar cursos.
   
     - Tecnología usada: Esta aplicación utiliza JAVA y SQL
   
@@ -57,6 +58,10 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         El json a enviar:{"informacion":"curso eliminado con exito","data":{"id":20,"nombre":"Alfonso","avatar":"avatar3.png","sexo":"m","cursos":[]},"errores":[],"hypermedias":[]}
   
         7. Obtener cursos: Metodo: GET, url: (http://localhost:8080/apprest/api/cursos/?filtro={String})
+        
+        8. Obtener noticias: Metodo: GET, url: (http://localhost:8080/apprest/api/noticias/)
+        
+        9. Cambiar un rol:
 
 ## Versiones
   ### Tag 1.0 -> Esta es la primera versión estable del proyecto.
