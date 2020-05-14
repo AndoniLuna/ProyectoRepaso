@@ -37,7 +37,9 @@ CREATE TABLE `curso` (
   `imagen` varchar(255) NOT NULL,
   `id_profesor` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `curso_UN_nombre` (`nombre`)
+  UNIQUE KEY `curso_UN_nombre` (`nombre`),
+  KEY `curso_FK` (`id_profesor`),
+  CONSTRAINT `curso_FK` FOREIGN KEY (`id_profesor`) REFERENCES `persona` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,7 +94,7 @@ CREATE TABLE `persona` (
   `id_rol` int(11) NOT NULL DEFAULT '2',
   PRIMARY KEY (`id`),
   UNIQUE KEY `persona_UN` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +103,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'Andoni','avatar4.png','h',2),(7,'Luisa','avatar1.png','m',1),(9,'Julio','avatar3.png','h',2),(14,'COBI','avatar7.png','h',1),(18,'Ander uraga','avatar6.png','h',1),(31,'Lola','avatar2.png','m',2);
+INSERT INTO `persona` VALUES (-1,'Sin asignar','avatar7.png','h',1),(1,'Andoni','avatar4.png','h',2),(7,'Luisa','avatar1.png','m',1),(9,'Julio','avatar3.png','h',2),(14,'COBI','avatar7.png','h',1),(18,'Ander uraga','avatar6.png','h',1),(31,'Lola','avatar2.png','m',2);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,4 +167,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-12 12:27:33
+-- Dump completed on 2020-05-14 12:40:41

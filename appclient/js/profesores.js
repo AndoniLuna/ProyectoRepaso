@@ -163,7 +163,7 @@ function pintarListaCursos (arrayCursos ){
                                                     </li>`);*/
     for (let i = 0; i< arrayCursos.length; i++){
         let c = arrayCursos[i];
-        if (c.id_profesor != 0){
+        if (c.id_profesor != -1){
             lista.innerHTML += `<li>
                                     <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
                                     <h3>${c.nombre}</h3>
@@ -174,7 +174,7 @@ function pintarListaCursos (arrayCursos ){
                                     <img src="img/${c.imagen}" alt="${c.nombre}" class="icono">
                                     <h3>${c.nombre}</h3>
                                     <span>No tiene Profesor</span>
-                                    <span onclick="asignarCurso( -1, ${c.id})" >[x] Asignar</span>
+                                    <span onclick="asignarCurso( 0, ${c.id})" >[x] Asignar</span>
                                 </li>`;
         }
     }
@@ -231,7 +231,7 @@ function seleccionar(indice, id){
             cursoAsignado.forEach( el => {
                 listaCursosProfesor.innerHTML += `<li>
                                                     ${el.nombre}
-                                                    <i class="fas fa-trash" onclick="asignarCurso(0, ${el.id})"></i>
+                                                    <i class="fas fa-trash" onclick="asignarCurso(-1, ${el.id})"></i>
                                                 </li>`;
             });
         }).catch( error => {
@@ -371,7 +371,7 @@ function busqueda(sexo, rol, nombre){
 function asignarCurso( idPersona, idCurso ){
 
     //idPersona = (idPersona != 0) ? idPersona : personaSeleccionada.id;
-    if (idPersona == -1) {
+    if (idPersona == 0) {
         idPersona = personaSeleccionada.id;
     }
 

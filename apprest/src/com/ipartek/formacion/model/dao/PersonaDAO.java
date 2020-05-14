@@ -31,7 +31,8 @@ public class PersonaDAO implements IDAO<Persona> {
 			"c.imagen  as curso_imagen" + 
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
 			" LEFT JOIN curso c ON pc.id_curso = c.id" +
-			" LEFT JOIN rol r ON p.id_rol = r.id LIMIT 500;  ";
+			" LEFT JOIN rol r ON p.id_rol = r.id" +
+			" WHERE p.id > -1 LIMIT 500;  ";
 	
 	private static String SQL_GET_BY_ID = "SELECT " + 
 			"p.id as persona_id, " + 
@@ -61,7 +62,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			" FROM (persona p LEFT JOIN persona_has_curso pc ON p.id = pc.id_persona)" + 
 			" LEFT JOIN curso c ON pc.id_curso = c.id" +
 			" LEFT JOIN rol r ON p.id_rol = r.id" +
-			" WHERE p.nombre = ? ;   ";
+			" WHERE p.nombre = ? AND p.id > -1 ;   ";
 	
 	private static String SQL_DELETE = "DELETE FROM persona WHERE id = ?; ";
 	private static String SQL_INSERT = "INSERT INTO persona ( nombre, avatar, sexo, id_rol) VALUES ( ?, ?, ?, ? ); ";

@@ -83,7 +83,7 @@ public class CursoController {
 			// Si el curso ya tiene profesor y quiero asignarle otro, mandare un mensaje de
 			// error a no ser que el id_profesor sea 0, lo que significa que se eliminara
 			// al profesor del curso
-			if (curso.getId_profesor() != 0 && (curso2.getId_profesor() != 0)) {
+			if (curso.getId_profesor() != -1 && (curso2.getId_profesor() != -1)) {
 
 				responseBody.setInformacion("Este curso ya esta asignado a un profesor");
 				response = Response.status(Status.CONFLICT).entity(responseBody).build();
@@ -94,7 +94,7 @@ public class CursoController {
 					cursoDAO.update(curso);
 					Curso c = cursoDAO.getById(id);
 
-					if (c.getId_profesor() != 0) {
+					if (c.getId_profesor() != -1) {
 						responseBody.setInformacion("curso asigando con exito");
 					} else {
 						responseBody.setInformacion("curso desasigando con exito");
