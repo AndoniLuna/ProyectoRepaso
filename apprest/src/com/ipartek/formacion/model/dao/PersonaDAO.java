@@ -214,6 +214,7 @@ public class PersonaDAO implements IDAO<Persona> {
 			pst.setString(1, pojo.getNombre() );
 			pst.setString(2, pojo.getAvatar() );
 			pst.setString(3, pojo.getSexo() );
+			pst.setInt(4, pojo.getId_rol());
 			LOGGER.info(pst.toString());
 			
 			//creamos la persona

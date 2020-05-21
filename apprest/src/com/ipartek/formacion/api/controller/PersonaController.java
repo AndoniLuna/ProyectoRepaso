@@ -129,25 +129,36 @@ public class PersonaController {
 		LOGGER.info("update");
 		Response response = Response.status(Status.NOT_FOUND).entity(persona).build();
 
-		Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
-		if (!violations.isEmpty()) {
-			ArrayList<String> errores = new ArrayList<String>();
-			for (ConstraintViolation<Persona> violation : violations) {
-				errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
-			}
-			response = Response.status(Status.BAD_REQUEST).entity(errores).build();
-
+		ArrayList<Curso> cursosimpartidos = new ArrayList<Curso>();
+		try {
+			cursosimpartidos = (ArrayList<Curso>) cursoDAO.getByTeacher(persona.getId());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		if (persona.getId_rol() == 2 && cursosimpartidos.size() > 0) {
+			ResponseBody responseBody = new ResponseBody();
+			responseBody.setInformacion("El profesor tiene cursos asignados, desasigneselos antes de cambiar su rol");
+			response = Response.status(Status.CONFLICT).entity(responseBody).build();
 		} else {
+			Set<ConstraintViolation<Persona>> violations = validator.validate(persona);
+			if (!violations.isEmpty()) {
+				ArrayList<String> errores = new ArrayList<String>();
+				for (ConstraintViolation<Persona> violation : violations) {
+					errores.add(violation.getPropertyPath() + ": " + violation.getMessage());
+				}
+				response = Response.status(Status.BAD_REQUEST).entity(errores).build();
 
-			try {
-				personaDAO.update(persona);
-				response = Response.status(Status.OK).entity(persona).build();
-			} catch (Exception e) {
-				ResponseBody responseBody = new ResponseBody();
-				responseBody.setInformacion("nombre duplicado");
-				response = Response.status(Status.CONFLICT).entity(responseBody).build();
+			} else {
+
+				try {
+					personaDAO.update(persona);
+					response = Response.status(Status.OK).entity(persona).build();
+				} catch (Exception e) {
+					ResponseBody responseBody = new ResponseBody();
+					responseBody.setInformacion("nombre duplicado");
+					response = Response.status(Status.CONFLICT).entity(responseBody).build();
+				}
 			}
-
 		}
 
 		return response;

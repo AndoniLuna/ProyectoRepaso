@@ -310,6 +310,7 @@ function guardar(){
 
     // CREAR
     if (persona.id == 0){
+        persona.id_rol = 2;
         ajax("POST", endpoint + 'personas/', persona)
         .then( data => { 
             // conseguir de nuevo todos los alumnos
