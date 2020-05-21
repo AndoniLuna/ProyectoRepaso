@@ -63,7 +63,15 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
         
         9. Cambiar un rol: Metodo: PUT, url: (http://localhost:8080/apprest/api/personas/1)
         
-        El json a enviar:
+        El json a enviar: {id: 1, nombre: "Andoni", avatar: "avatar4.png", sexo: "h", id_rol: "2"}
+        
+        10. Asignar curso: Metodo: PUT, url: (http://localhost:8080/apprest/api/cursos/2)
+        
+        El json a enviar: {id: 2, id_profesor: 7}
+        
+        11. Desasignar curso: Metodo: PUT, url: (http://localhost:8080/apprest/api/cursos/2)
+        
+        El json a enviar: {id: 2, id_profesor: -1}
 
 ## Versiones
   ### Tag 1.0 -> Esta es la primera versión estable del proyecto.
@@ -74,9 +82,16 @@ En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan infor
   
   Esta versión se creo debido a que en ella a diferencia de versiones anteriores, no hay errores que bloqueen a las aplicaciones, la aplicación hace las tareas básicas (Creación, Busqueda, Listado, Modificación y Eliminación) y ya tiene un aspecto agradable para el usuario
   
-  ### Tag 2.0 -> Ultima versión estable del proyecto
+  ### Tag 2.0 -> Segunda versión estable del proyecto
   
   La aplicación rest nos permite obtener una lista de todos los cursos. También nos permite asignar/desasignar cursos a los alumnos.
   La aplicación cliente nos permite ver los cursos, filtrarlos por nombre y asignarlos/desasignarlos a los alumnos. Además se introdujeron mejoras de css y animaciones para mejorar la estetica de la aplicación
   
   Esta versión se creo como mejora de la 1.0 Además mejora la apariencia estetica de la aplicación, que en la 1.0 era un poco sosa y corrige pequeños bugs de la 1.0 que se pasaron por alto debido a su escaso impacto en el funcionamiento de la aplicación
+  
+  ### Tag 3.0 -> Ultima versión estable del proyecto
+  
+  La aplicación rest nos permite asignar/desasignar profesores a los cursos. También nos permite cambiar el rol de los usuarios. También nos muestra las ultimas noticias.
+  La aplicación cliente nos permite ver el rol del usuario (Solo en la página de "gestion profesores") y los cursos que un profesor imparte, también nos muestra una lista con los cursos, indicandonos si estos tienen un profesor asignado o están sin asignar. En caso de estar asignados, mostraran el nombre del profesor. Por ultimo, se ha añadido una sección donde podemos ver las ultimas noticias
+  
+  Esta versión se creo como mejora de la 2.0, añadiendo nuevas funcionalidades con el fin de dar una apariencia más profesional a la aplicación.
