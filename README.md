@@ -29,7 +29,7 @@ También hay que configurar el fichero config.xml
     `db.name = "root";
     db.pass= "root";`
 La ruta al script de la bd es: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/apprest/script2-db.sql)
-El modelo Entidad Relación de la bd se puede consultar en esta ruta: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Modelo_Entidad_Relacion.PNG)
+El modelo Entidad Relación de la bd se puede consultar en esta ruta: (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Modelo_Entidad_Relacion.PNG) y (https://github.com/AndoniLuna/ProyectoRepaso/blob/master/appclient/screenshots/Entidad-Relacion2.PNG)
 En caso de problemas al arrancar la aplicación, esta ejecuta logs que dan información de los errores y correcto funcionamiento de esta.
 
   
